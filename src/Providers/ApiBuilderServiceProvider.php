@@ -10,7 +10,7 @@ class ApiBuilderServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../config/api-builder.php' => config_path('api-builder.php'),
+            __DIR__.'/../../config/api-builder.php' => config_path('api-builder.php'),
         ]);
 
         if ($this->app->runningInConsole()) {

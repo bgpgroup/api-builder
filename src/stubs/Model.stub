@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use DummyExtends;
+use DummyExtendsPath;
 
-class DummyModel extends DummyExtendsModel
+class DummyModel extends DummyExtendsName
 {
     use HasFactory;
 

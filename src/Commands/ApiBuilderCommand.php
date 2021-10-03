@@ -67,7 +67,12 @@ class ApiBuilderCommand extends GeneratorCommand
 
         $stub = str_replace('DummyModel', $this->argument('name'), $stub);
 
-        return str_replace('DummyExtends', config('api-builder.models.extends'), $stub);
+        $stub = str_replace('DummyExtendsPath', config('api-builder.models.extends'), $stub);
+
+        $extendsArray = explode('\\', config('api-builder.models.extends'));
+        $extendsClass = end($extendsArray);
+
+        return str_replace('DummyExtendsName', $extendsClass, $stub);
 
     }
 }
