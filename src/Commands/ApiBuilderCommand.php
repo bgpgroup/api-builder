@@ -4,44 +4,70 @@ namespace BgpGroup\ApiBuilder\Commands;
 
 use App\Models\User;
 use App\Support\DripEmailer;
-use Illuminate\Console\Command;
+use Illuminate\Console\GeneratorCommand;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 
-class ApiBuilderCommand extends Command
+class ApiBuilderCommand extends GeneratorCommand
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'bgp:api {endpoint}';
+    protected $signature = 'bgp:make:model {name}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Generate api crud endpoints';
+    protected $description = 'Generate api model';
 
-    /**
-     * Create a new command instance.
+     /**
+     * Execute the console command.
      *
-     * @return void
+     * @return bool|null
      */
-    public function __construct()
-    {
-        parent::__construct();
+    public function fire(){
+
+        $this->setModelClass();
     }
 
     /**
-     * Execute the console command.
+     * 
+     * Get the stub file for the generator.
      *
-     * @param  \App\Support\DripEmailer  $drip
-     * @return mixed
+     * @return string
      */
-    public function handle()
+    protected function getStub()
     {
-        $endpoint = $this->argument('endpoint');
+        return __DIR__.'/../stubs/' . '/' . 'Model.stub';
+    }
 
-        $this->info('This is the endpoint: ' . $endpoint);
+    protected function getDefaultNamespace($rootnamespace)
+    {
+        return $rootnamespace . '\Models';
+    }
+
+    /**
+     * Replace the class name for the given stub.
+     *
+     * @param  string  $stub
+     * @param  string  $name
+     * @return string
+     */
+    protected function replaceClass($stub, $name)
+    {
+        if(!$this->argument('name')){
+            throw new InvalidArgumentException("Missing required argument model name");
+        }
+
+        $stub = parent::replaceClass($stub, $name);
+
+        $stub = str_replace('DummyModel', $this->argument('name'), $stub);
+
+        return str_replace('DummyExtends', config('api-builder.models.extends'), $stub);
+
     }
 }

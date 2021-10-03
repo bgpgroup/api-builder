@@ -1,0 +1,94 @@
+<?php
+
+namespace App\Http\Controllers\API;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\Dummy;
+use App\Http\Resources\DummyResource;
+use App\Http\Resources\DummyCollection;
+use F9Web\ApiResponseHelpers;
+use Illuminate\Http\JsonResponse;
+use App\Http\Requests\DummyRequest;
+
+class DummyController extends Controller
+{
+    use ApiResponseHelpers;
+    
+    public $search = null;
+    public $sort = 'name';
+    public $direction = 'asc';
+    public $per_page = '10';
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request) : DummyCollection
+    {
+        ray()->measure();
+        ray()->showQueries();
+        $data = Dummy::when($this->search, function ($query) {
+                $query->where('name', 'like', '%' . $this->search . '%')
+                    ->orWhere('description', 'like', '%' . $this->search . '%');
+            })
+            ->orderBy($this->sort, $this->direction)
+            ->paginate($this->per_page);
+        ray($data);
+        return new DummyCollection($data);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\DummyRequest  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(DummyRequest $request) : JsonResponse
+    {
+        Dummy::create($request->validated());
+
+        return $this->respondCreated(['message' => 'Registro creado correctamente']);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  Dummy  $genderType
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Dummy $genderType) : DummyResource
+    {
+        return new DummyResource($genderType);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(DummyRequest $request, Dummy $genderType) : JsonResponse
+    {
+        $genderType->update($request->validated());
+
+        return $this->respondWithSuccess(['message' => 'Registro actualizado correctamente']);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id) : JsonResponse
+    {
+        $item = Dummy::findOrFail($id);
+
+        $item->delete();
+
+        return response()->json(['success' => 'Item deleted successfully'], 200);
+    }
+}
