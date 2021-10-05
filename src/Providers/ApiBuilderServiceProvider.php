@@ -3,7 +3,7 @@
 namespace BgpGroup\ApiBuilder\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use BgpGroup\ApiBuilder\Commands\ApiBuilderCommand;
+use BgpGroup\ApiBuilder\Commands\ApiModelBuilderCommand;
 
 class ApiBuilderServiceProvider extends ServiceProvider
 {
@@ -15,7 +15,7 @@ class ApiBuilderServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->commands([
-                ApiBuilderCommand::class,
+                ApiModelBuilderCommand::class,
             ]);
         }
     }

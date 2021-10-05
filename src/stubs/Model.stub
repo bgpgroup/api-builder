@@ -9,7 +9,6 @@ class DummyModel extends DummyExtendsName
 {
     use HasFactory;
 
-    protected $fillable = [
-
+    protected $fillable = [{{fillableFields}}
     ];
 }

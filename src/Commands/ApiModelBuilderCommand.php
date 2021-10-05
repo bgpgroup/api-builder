@@ -8,14 +8,17 @@ use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 
-class ApiBuilderCommand extends GeneratorCommand
+class ApiModelBuilderCommand extends GeneratorCommand
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'bgp:make:model {name}';
+    protected $signature = 'bgp:make:model 
+                            {name} : The name of the model
+                            {--fields= : The list of fields separated by comma.}
+                            ';
 
     /**
      * The console command description.
@@ -63,16 +66,52 @@ class ApiBuilderCommand extends GeneratorCommand
             throw new InvalidArgumentException("Missing required argument model name");
         }
 
+        $fields = rtrim($this->option('fields'), ',');
+
         $stub = parent::replaceClass($stub, $name);
 
-        $stub = str_replace('DummyModel', $this->argument('name'), $stub);
+        $stub = $this->replaceClassName($stub, $this->argument('name'));
 
-        $stub = str_replace('DummyExtendsPath', config('api-builder.models.extends'), $stub);
+        $stub = $this->replaceFillableFields($stub, $this->getFilableFields($fields));
 
-        $extendsArray = explode('\\', config('api-builder.models.extends'));
+        return  $this->replaceExtends($stub, config('api-builder.models.extends'));
+
+    }
+
+    protected function replaceClassName(&$stub, $name)
+    {
+        return str_replace('DummyModel', $name, $stub);
+    }
+
+    protected function replaceExtends(&$stub, $name)
+    {
+        $stub = str_replace('DummyExtendsPath', $name, $stub);
+
+        $extendsArray = explode('\\', $name);
         $extendsClass = end($extendsArray);
 
         return str_replace('DummyExtendsName', $extendsClass, $stub);
+    }
 
+    protected function replaceFillableFields(&$stub, $fields)
+    {
+        return str_replace('{{fillableFields}}', $fields, $stub);
+    }
+
+    protected function getFilableFields($fields)
+    {
+        $fillableFields = '';
+        if (trim($fields) != '') {
+
+            $fields = explode(',', $fields);
+            foreach ($fields as $field) {
+                if (trim($field) == '') {
+                    continue;
+                }
+                $fillableFields .= "\n\t\t'$field',";
+            }
+        }
+
+        return $fillableFields;
     }
 }
