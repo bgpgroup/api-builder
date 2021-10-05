@@ -60,7 +60,7 @@ class ApiRequestBuilderCommand extends GeneratorCommand
     protected function replaceClass($stub, $name)
     {
         if(!$this->argument('name')){
-            throw new InvalidArgumentException("Missing required argument model name");
+            throw new InvalidArgumentException("Missing required argument request name");
         }
 
         //$fields = 'name=required|max:50;description=nullable';

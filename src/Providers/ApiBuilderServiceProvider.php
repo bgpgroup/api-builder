@@ -5,6 +5,9 @@ namespace BgpGroup\ApiBuilder\Providers;
 use Illuminate\Support\ServiceProvider;
 use BgpGroup\ApiBuilder\Commands\ApiModelBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ApiRequestBuilderCommand;
+use BgpGroup\ApiBuilder\Commands\ApiCollectionBuilderCommand;
+use BgpGroup\ApiBuilder\Commands\ApiResourceBuilderCommand;
+
 
 class ApiBuilderServiceProvider extends ServiceProvider
 {
@@ -18,6 +21,8 @@ class ApiBuilderServiceProvider extends ServiceProvider
             $this->commands([
                 ApiModelBuilderCommand::class,
                 ApiRequestBuilderCommand::class,
+                ApiCollectionBuilderCommand::class,
+                ApiResourceBuilderCommand::class,
             ]);
         }
     }
