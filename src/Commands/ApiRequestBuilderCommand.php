@@ -5,16 +5,16 @@ namespace BgpGroup\ApiBuilder\Commands;
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 
-class ApiModelBuilderCommand extends GeneratorCommand
+class ApiRequestBuilderCommand extends GeneratorCommand
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'bgp:make:model 
-                            {name} : The name of the model
-                            {--fields= : The list of fields separated by comma.}
+    protected $signature = 'bgp:make:request 
+                            {name} : The name of the Request
+                            {--rules= : The list of validations.}
                             ';
 
     /**
@@ -22,7 +22,7 @@ class ApiModelBuilderCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $description = 'Generate api model';
+    protected $description = 'Generate Request';
 
      /**
      * Execute the console command.
@@ -42,12 +42,12 @@ class ApiModelBuilderCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__.'/../stubs/' . '/' . 'Model.stub';
+        return __DIR__.'/../stubs/' . '/' . 'Request.stub';
     }
 
     protected function getDefaultNamespace($rootnamespace)
     {
-        return $rootnamespace . '\Models';
+        return $rootnamespace . '\Http\Requests';
     }
 
     /**
@@ -63,52 +63,45 @@ class ApiModelBuilderCommand extends GeneratorCommand
             throw new InvalidArgumentException("Missing required argument model name");
         }
 
-        $fields = rtrim($this->option('fields'), ',');
+        //$fields = 'name=required|max:50;description=nullable';
+        $fields = rtrim($this->option('rules'), ';');
 
         $stub = parent::replaceClass($stub, $name);
 
         $stub = $this->replaceClassName($stub, $this->argument('name'));
 
-        $stub = $this->replaceFillableFields($stub, $this->getFilableFields($fields));
+        $stub = $this->replaceValidationFields($stub, $this->getRules($fields));
 
-        return  $this->replaceExtends($stub, config('api-builder.models.extends'));
-
+        return $stub;
     }
 
     protected function replaceClassName($stub, $name)
     {
-        return str_replace('DummyModel', $name, $stub);
+        return str_replace('DummyRequest', $name, $stub);
     }
 
-    protected function replaceExtends($stub, $name)
+    protected function replaceValidationFields($stub, $fields)
     {
-        $stub = str_replace('DummyExtendsPath', $name, $stub);
-
-        $extendsArray = explode('\\', $name);
-        $extendsClass = end($extendsArray);
-
-        return str_replace('DummyExtendsName', $extendsClass, $stub);
+        return str_replace('{{validationFields}}', $fields, $stub);
     }
 
-    protected function replaceFillableFields($stub, $fields)
+    protected function getRules($fields)
     {
-        return str_replace('{{fillableFields}}', $fields, $stub);
-    }
-
-    protected function getFilableFields($fields)
-    {
-        $fillableFields = '';
+        $rules = '';
         if (trim($fields) != '') {
 
-            $fields = explode(',', $fields);
+            $fields = explode(';', $fields);
             foreach ($fields as $field) {
                 if (trim($field) == '') {
                     continue;
                 }
-                $fillableFields .= "\n\t\t'$field',";
+
+                list($fieldName, $rule) = explode('=', $field);
+
+                $rules .= "\n\t\t\t'$fieldName' => '$rule',";
             }
         }
 
-        return $fillableFields;
+        return $rules;
     }
 }
