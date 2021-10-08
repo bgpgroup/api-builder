@@ -32,7 +32,7 @@ class ApiResourceBuilderCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__.'/../stubs/' . '/' . 'Resource.stub';
+        return __DIR__.'/../stubs/' . '/' . 'resource.stub';
     }
 
     protected function getDefaultNamespace($rootnamespace)

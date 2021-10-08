@@ -5,11 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Models\Dummy;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Http\JsonResponse;
 use App\Http\Resources\DummyResource;
-use App\Http\Resources\DummyCollection;
 use App\Http\Requests\DummyRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DummyCollection;
 
 class DummyController extends Controller
 {    
@@ -29,17 +28,22 @@ class DummyController extends Controller
         return new DummyCollection($result);
     }
 
+    public function getNameInput()
+    {
+        return 'MyBelloController';
+    }
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\DummyRequest  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return \App\Http\Resources\DummyResource
      */
-    public function store(DummyRequest $request) : JsonResponse
+    public function store(DummyRequest $request) : DummyResource
     {
-        Dummy::create($request->validated());
+        $model = Dummy::create($request->validated());
 
-        return response()->json(['message' => 'Registro creado correctamente'], Response::HTTP_CREATED);
+        return new DummyResource($model);
     }
 
     /**
@@ -60,23 +64,23 @@ class DummyController extends Controller
      * @param  \App\Models\Dummy  $model
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(DummyRequest $request, Dummy $model) : JsonResponse
+    public function update(DummyRequest $request, Dummy $model) : DummyResource
     {
         $model->update($request->validated());
 
-        return response()->json(['message' => 'Registro actualizado correctamente']);
+        return new DummyResource($model);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Dummy  $model
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response
      */
-    public function destroy(Dummy $model) : JsonResponse
+    public function destroy(Dummy $model) : Response
     {
         $model->delete();
 
-        return response()->json(['success' => 'Item deleted successfully'], 200);
+        return response()->noContent();
     }
 }

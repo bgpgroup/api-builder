@@ -31,7 +31,7 @@ class ApiControllerBuilderCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__.'/../stubs/' . '/' . 'Controller.stub';
+        return __DIR__.'/../stubs/' . '/' . 'controller.stub';
     }
 
     protected function getDefaultNamespace($rootnamespace)

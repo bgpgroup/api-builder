@@ -32,7 +32,7 @@ class ApiCollectionBuilderCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__.'/../stubs/' . '/' . 'Collection.stub';
+        return __DIR__.'/../stubs/' . '/' . 'collection.stub';
     }
 
     protected function getDefaultNamespace($rootnamespace)

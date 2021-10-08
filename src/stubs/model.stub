@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use DummyExtendsPath;
+use BgpGroup\Searchable\Searchable;
 
 class DummyModel extends DummyExtendsName
 {
     use HasFactory;
+    use Searchable;
 
     protected $fillable = [{{fillableFields}}
     ];

@@ -42,7 +42,7 @@ class ApiRequestBuilderCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__.'/../stubs/' . '/' . 'Request.stub';
+        return __DIR__.'/../stubs/' . '/' . 'request.stub';
     }
 
     protected function getDefaultNamespace($rootnamespace)
@@ -63,14 +63,14 @@ class ApiRequestBuilderCommand extends GeneratorCommand
             throw new InvalidArgumentException("Missing required argument request name");
         }
 
-        //$fields = 'name=required|max:50;description=nullable';
-        $fields = rtrim($this->option('rules'), ';');
+        //$rules = 'name=required|max:50;description=nullable';
+        $rules = rtrim($this->option('rules'), ';');
 
         $stub = parent::replaceClass($stub, $name);
 
         $stub = $this->replaceClassName($stub, $this->argument('name'));
 
-        $stub = $this->replaceValidationFields($stub, $this->getRules($fields));
+        $stub = $this->replaceValidationFields($stub, $this->getRules($rules));
 
         return $stub;
     }

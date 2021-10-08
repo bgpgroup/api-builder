@@ -42,7 +42,7 @@ class ApiModelBuilderCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__.'/../stubs/' . '/' . 'Model.stub';
+        return __DIR__.'/../stubs/' . '/' . 'model.stub';
     }
 
     protected function getDefaultNamespace($rootnamespace)
