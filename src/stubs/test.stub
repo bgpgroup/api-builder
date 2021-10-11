@@ -1,0 +1,96 @@
+<?php
+
+namespace Tests\Feature;
+
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Testing\Fluent\AssertableJson;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Tests\TestCase;
+use App\Models\Dummy;
+
+class DummyTest extends TestCase
+{
+    use RefreshDatabase;
+    
+    /**
+     * Get all items.
+     *
+     * @return void
+     */
+    public function test_{{plural_model}}_can_be_displayed()
+    {
+        Dummy::factory()->count(10)->create();
+
+        $this->getJson('/{{base_endpoint}}/{{endpoint_name}}')
+            ->assertStatus(200)
+            ->assertJson(fn (AssertableJson $json) =>
+                $json->has('data', 10)
+                    ->has('links')
+                    ->has('meta')
+            );
+    }
+
+    /**
+     * Get single item.
+     *
+     * @return void
+     */
+    public function test_{{singular_model}}_can_be_displayed()
+    {
+        $model = Dummy::factory()->create();
+
+        $this->getJson('/{{base_endpoint}}/{{endpoint_name}}/' . $model->id)
+            ->assertStatus(200)
+            ->assertJson([
+                'data' => $model{{makeHidden}} 
+                    ->toArray()
+            ]);
+    }
+
+    /**
+     * Create item.
+     *
+     * @return void
+     */
+    public function test_{{singular_model}}_can_be_created()
+    {
+        $data = Dummy::factory()->make(){{makeHidden}}
+            ->toArray();
+
+        $this->postJson('/{{base_endpoint}}/{{endpoint_name}}', $data)
+            ->assertStatus(201)
+            ->assertJson([
+                'data' => $data
+            ]);
+    }
+
+    /**
+     * Update item.
+     *
+     * @return void
+     */
+    public function test_{{singular_model}}_can_be_updated()
+    {
+        $data = Dummy::factory()
+            ->make(){{makeHidden}}
+            ->toArray();
+
+        $this->putJson('/{{base_endpoint}}/{{endpoint_name}}/' . Dummy::factory()->create()->id, $data)
+            ->assertStatus(200)
+            ->assertJson([
+                'data' => $data
+            ]);
+    }
+
+    /**
+     * Delete item.
+     *
+     * @return void
+     */
+    public function test_{{singular_model}}_can_be_deleted()
+    {
+        $this->deleteJson('/{{base_endpoint}}/{{endpoint_name}}/' . Dummy::factory()->create()->id)
+            ->assertNoContent(204);
+    }
+}
