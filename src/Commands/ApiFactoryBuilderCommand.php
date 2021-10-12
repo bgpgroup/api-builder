@@ -103,6 +103,7 @@ class ApiFactoryBuilderCommand extends GeneratorCommand
             //    'description' => $this->faker->sentence,
             //    'team_id' => Team::factory()->create()->id,
 
+                $column = explode('|', $column)[0];
                 $methods = explode(':', $column);
 
                 if ($methods[0] == 'foreign' || $methods[0] == 'foreignId') {

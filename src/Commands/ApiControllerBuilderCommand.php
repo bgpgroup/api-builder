@@ -2,6 +2,7 @@
 
 namespace BgpGroup\ApiBuilder\Commands;
 
+use Illuminate\Support\Str;
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 
@@ -22,6 +23,8 @@ class ApiControllerBuilderCommand extends GeneratorCommand
      * @var string
      */
     protected $description = 'Generate Controller';
+
+    protected $type = 'Controller';
 
     /**
      * 
@@ -52,6 +55,7 @@ class ApiControllerBuilderCommand extends GeneratorCommand
             throw new InvalidArgumentException("Missing required argument controller name");
         }
 
+        $stub = $this->replaceModelName($stub, $this->argument('name'));
         return $this->replaceClassName($stub, $this->argument('name'));
     }
 
@@ -59,6 +63,13 @@ class ApiControllerBuilderCommand extends GeneratorCommand
     {
         $dummyName = str_replace('Controller', '', $name);
         return str_replace('Dummy', $dummyName, $stub);
+    }
+
+    protected function replaceModelName($stub, $name)
+    {
+        $modelName = str_replace('Controller', '', $name);
+        $modelName = Str::camel($modelName);
+        return str_replace('{{model}}', "$" . $modelName, $stub);
     }
 
 }

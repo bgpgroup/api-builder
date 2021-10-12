@@ -24,6 +24,8 @@ class ApiModelBuilderCommand extends GeneratorCommand
      */
     protected $description = 'Generate api model';
 
+    protected $type = 'Model';
+
      /**
      * Execute the console command.
      *

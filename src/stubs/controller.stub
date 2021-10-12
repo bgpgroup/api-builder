@@ -37,9 +37,9 @@ class DummyController extends Controller
      */
     public function store(DummyRequest $request) : JsonResponse
     {
-        $model = Dummy::create($request->validated());
+        {{model}} = Dummy::create($request->validated());
 
-        return (new DummyResource($model))
+        return (new DummyResource({{model}}))
             ->response()
             ->setStatusCode(201);
     }
@@ -47,37 +47,37 @@ class DummyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Dummy  $model
+     * @param  \App\Models\Dummy  {{model}}
      * @return \App\Http\Resources\DummyResource
      */
-    public function show(Dummy $model) : DummyResource
+    public function show(Dummy {{model}}) : DummyResource
     {
-        return new DummyResource($model);
+        return new DummyResource({{model}});
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\DummyRequest  $request
-     * @param  \App\Models\Dummy  $model
+     * @param  \App\Models\Dummy  {{model}}
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(DummyRequest $request, Dummy $model) : DummyResource
+    public function update(DummyRequest $request, Dummy {{model}}) : DummyResource
     {
-        $model->update($request->validated());
+        {{model}}->update($request->validated());
 
-        return new DummyResource($model);
+        return new DummyResource({{model}});
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Dummy  $model
+     * @param  \App\Models\Dummy  {{model}}
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Dummy $model) : Response
+    public function destroy(Dummy {{model}}) : Response
     {
-        $model->delete();
+        {{model}}->delete();
 
         return response()->noContent();
     }

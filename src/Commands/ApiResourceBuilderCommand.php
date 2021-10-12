@@ -24,6 +24,8 @@ class ApiResourceBuilderCommand extends GeneratorCommand
      */
     protected $description = 'Generate Resource';
 
+    protected $type = 'Resource';
+
     /**
      * 
      * Get the stub file for the generator.

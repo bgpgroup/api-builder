@@ -24,6 +24,8 @@ class ApiCollectionBuilderCommand extends GeneratorCommand
      */
     protected $description = 'Generate Collection';
 
+    protected $type = 'Collection';
+
     /**
      * 
      * Get the stub file for the generator.

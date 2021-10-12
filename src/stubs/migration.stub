@@ -15,7 +15,6 @@ class CreateDummyTable extends Migration
     {
         Schema::create('{{tableName}}', function (Blueprint $table) {
             $table->id();{{columns}}
-            $table->active();
             $table->timestamps();
             $table->softDeletes();
         });

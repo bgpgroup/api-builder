@@ -24,6 +24,8 @@ class ApiTestBuilderCommand extends GeneratorCommand
      */
     protected $description = 'Generate Test';
 
+    protected $type = 'Test';
+
     /**
      * 
      * Get the stub file for the generator.

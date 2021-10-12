@@ -24,6 +24,8 @@ class ApiRequestBuilderCommand extends GeneratorCommand
      */
     protected $description = 'Generate Request';
 
+    protected $type = 'Request';
+
      /**
      * Execute the console command.
      *
