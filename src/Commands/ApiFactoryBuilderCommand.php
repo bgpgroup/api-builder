@@ -6,15 +6,15 @@ use Illuminate\Support\Str;
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 
-class ApiMigrationBuilderCommand extends GeneratorCommand
+class ApiFactoryBuilderCommand extends GeneratorCommand
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'bgp:make:migration 
-                            {name} : The name of the Migration
+    protected $signature = 'bgp:make:factory 
+                            {name} : The name of the Factory
                             {--columns= : The list of validations.}
                             ';
 
@@ -23,9 +23,9 @@ class ApiMigrationBuilderCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $description = 'Generate Migration';
+    protected $description = 'Generate Factory';
 
-    protected $type = 'Migration';
+    protected $type = 'Factory';
 
     /**
      * 
@@ -35,13 +35,13 @@ class ApiMigrationBuilderCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__.'/../stubs/' . '/' . 'migration.stub';
+        return __DIR__.'/../stubs/' . '/' . 'factory.stub';
     }
 
     protected function getPath($name)
     {
         $name = str_replace($this->laravel->getNamespace(), '', $name);
-        return database_path('/migrations/') . date('Y_m_d_His') . '_create_' . $name . '_table.php';
+        return database_path('/factories/') . $name . '.php';
     }
 
     /**
@@ -57,13 +57,12 @@ class ApiMigrationBuilderCommand extends GeneratorCommand
             throw new InvalidArgumentException("Missing required argument request name");
         }
 
-        //$columns = 'string:name,50;text:description|nullable';
+        //$columns = 'string:name;text:description;foreign:team_id';
         $columns = rtrim($this->option('columns'), ';');
 
         $stub = parent::replaceClass($stub, $name);
 
         $stub = $this->replaceClassName($stub, $this->argument('name'));
-        $stub = $this->replaceTableName($stub, $this->argument('name'));
 
         $stub = $this->replaceColumns($stub, $this->getColumns($columns));
 
@@ -72,13 +71,8 @@ class ApiMigrationBuilderCommand extends GeneratorCommand
 
     protected function replaceClassName($stub, $name)
     {
-        $name = Str::studly($name);
+        $name = str_replace('Factory', '', $name);
         return str_replace('Dummy', $name, $stub);
-    }
-
-    protected function replaceTableName($stub, $name)
-    {
-        return str_replace('{{tableName}}', $name, $stub);
     }
 
     protected function replaceColumns($stub, $columns)
@@ -90,35 +84,34 @@ class ApiMigrationBuilderCommand extends GeneratorCommand
     {
         $result = '';
 
+        $typeValues = [
+            'string' => '$this->faker->word',
+            'text' => '$this->faker->sentence',
+        ];
+
         if (trim($columns) != '') {
 
             $columns = explode(';', $columns);
+
             foreach ($columns as $column) {
+
                 if (trim($column) == '') {
                     continue;
                 }
 
-                $types = explode('|', $column);
-                $result .= "\n\t\t\t\$table";
-                foreach ($types as $type) {
-                    $methods = explode(':', $type);
-                    $result .= "->" . $methods[0] . "("; // "('name', 50)";
-                    if (!isset($methods[1])) {
-                        $result .= ")";
-                        continue;
-                    }
-                    $values = explode(',', $methods[1]);
-                    // verify type enum (to do)
-                    $result .= "'" . $values[0] . "'";
-                    if (isset($values[1])) {
-                        $result .= ", " . $values[1];
-                    }
-                    if (isset($values[2])) {
-                        $result .= ", " . $values[2];
-                    }
-                    $result .= ")";
+            //    'name' => $this->faker->word,
+            //    'description' => $this->faker->sentence,
+            //    'team_id' => Team::factory()->create()->id,
+
+                $methods = explode(':', $column);
+
+                if ($methods[0] == 'foreign' || $methods[0] == 'foreignId') {
+                    $class = Str::studly(str_replace('_id', '', $methods[1]));
+                    $result .= "\n\t\t\t'" . $methods[1] ."' => " . $class . "::factory()->create()->id,";
+                    continue;
                 }
-                $result .= ";";
+
+                $result .= "\n\t\t\t'" . $methods[1] ."' => " . $typeValues[$methods[0]] . ",";
             }
         }
 

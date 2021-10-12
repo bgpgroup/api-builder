@@ -11,6 +11,7 @@ use BgpGroup\ApiBuilder\Commands\ApiControllerBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ApiCrudBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ApiMigrationBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ApiTestBuilderCommand;
+use BgpGroup\ApiBuilder\Commands\ApiFactoryBuilderCommand;
 
 class ApiBuilderServiceProvider extends ServiceProvider
 {
@@ -30,6 +31,7 @@ class ApiBuilderServiceProvider extends ServiceProvider
                 ApiCrudBuilderCommand::class,
                 ApiMigrationBuilderCommand::class,
                 ApiTestBuilderCommand::class,
+                ApiFactoryBuilderCommand::class,
             ]);
         }
     }

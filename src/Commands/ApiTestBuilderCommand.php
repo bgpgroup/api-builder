@@ -83,7 +83,7 @@ class ApiTestBuilderCommand extends GeneratorCommand
 
     protected function replaceBaseEndpoint($stub)
     {
-        return str_replace('{{base_endpoint}}', 'api', $stub);
+        return str_replace('{{base_endpoint}}', config('api-builder.base_api'), $stub);
     }
 
     protected function replaceEndpointName($stub, $name)
@@ -94,7 +94,7 @@ class ApiTestBuilderCommand extends GeneratorCommand
 
     protected function replaceMakeHidden($stub)
     {
-        $text = "->makeHidden(['id', 'team_id','created_at','updated_at'])";
+        $text = "->makeHidden(['" . implode("','", config('api-builder.tests.hide_fields')) . "'])";
         return str_replace('{{makeHidden}}', $text, $stub);
     }
 }
