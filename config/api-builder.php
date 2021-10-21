@@ -6,6 +6,13 @@ return [
 
 	'base_api' => 'v1',
 
+	'requests' => [
+
+		'namespace' => 'App\Http\Requests',
+
+		'base' => 'app/',
+	],
+
 	'models' => [
 
 		'extends' => 'Illuminate\Database\Eloquent\Model',
