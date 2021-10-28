@@ -1,0 +1,24 @@
+<?php
+
+namespace DummyNamespace;
+
+use DummyModelUse;
+use Spatie\DataTransferObject\DataTransferObject;
+
+final class DummyClassName extends DataTransferObject
+{
+    public function __construct({{declaration_fields}}
+    ) {}
+
+    public static function fromModel(DummyModelName $model): DummyClassName
+    {
+        return new static({{model_fields}}
+        );
+    }
+
+    public static function fromArray(array $data): DummyClassName
+    {
+        return new static({{array_fields}}
+        );
+    }
+}
