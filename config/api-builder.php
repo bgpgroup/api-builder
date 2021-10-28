@@ -20,6 +20,10 @@ return [
 		'traits' => [
 
 		],
+
+		'namespace' => 'App\Models',
+
+		'base' => 'app/',
 	],
 
 	'controllers' => [

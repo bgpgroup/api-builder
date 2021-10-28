@@ -47,8 +47,9 @@ class ApiRequestBuilderCommand extends GeneratorCommand
     {
         $namespace = str_replace("App\\", '', config('api-builder.requests.namespace'));
         $namespace = str_replace("\\", '/', $namespace) . '/';
-        $base = Str::endsWith(config('api-builder.requests.base'), '/') ? config('api-builder.requests.base') : config('api-builder.requests.base') . '/';
-        return config('api-builder.requests.base') . $namespace . $this->argument('name') . '.php';
+        $basePath = config('api-builder.requests.base');
+        $base = Str::endsWith($basePath, '/') ? $basePath : $basePath . '/';
+        return $basePath . $namespace . $this->argument('name') . '.php';
     }
 
     /**

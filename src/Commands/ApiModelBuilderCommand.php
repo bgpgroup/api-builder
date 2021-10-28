@@ -2,6 +2,7 @@
 
 namespace BgpGroup\ApiBuilder\Commands;
 
+use Illuminate\Support\Str;
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 
@@ -31,10 +32,10 @@ class ApiModelBuilderCommand extends GeneratorCommand
      *
      * @return bool|null
      */
-    public function fire(){
+    // public function fire(){
 
-        $this->setModelClass();
-    }
+    //     $this->setModelClass();
+    // }
 
     /**
      * 
@@ -49,7 +50,17 @@ class ApiModelBuilderCommand extends GeneratorCommand
 
     protected function getDefaultNamespace($rootnamespace)
     {
-        return $rootnamespace . '\Models';
+        //return $rootnamespace . '\Models';
+        return 'App';
+    }
+
+    protected function getPath($name)
+    {
+        $namespace = str_replace("App\\", '', config('api-builder.models.namespace'));
+        $namespace = str_replace("\\", '/', $namespace) . '/';
+        $basePath = config('api-builder.models.base');
+        $base = Str::endsWith($basePath, '/') ? $basePath : $basePath . '/';
+        return $basePath . $namespace . $this->argument('name') . '.php';
     }
 
     /**
@@ -61,20 +72,48 @@ class ApiModelBuilderCommand extends GeneratorCommand
      */
     protected function replaceClass($stub, $name)
     {
+        $namespace = $this->getNamespace($name);
+        $classname = $this->getClass($name);
+
         if(!$this->argument('name')){
             throw new InvalidArgumentException("Missing required argument model name");
         }
 
         $fields = rtrim($this->option('fields'), ',');
 
-        $stub = parent::replaceClass($stub, $name);
+        $stub = parent::replaceClass($stub, $classname);
 
-        $stub = $this->replaceClassName($stub, $this->argument('name'));
+        $stub = $this->setNamespace($stub, $namespace);
+
+        $stub = $this->replaceClassName($stub, $classname);
 
         $stub = $this->replaceFillableFields($stub, $this->getFilableFields($fields));
 
         return  $this->replaceExtends($stub, config('api-builder.models.extends'));
 
+    }
+
+    protected function getNamespace($name)
+    {
+        $name = str_replace("App\\", '', $name);
+
+        $nameArray = explode("\\", $name);
+
+        $classname = array_pop($nameArray);
+
+        return config('api-builder.models.namespace') . (count($nameArray) > 0  ? "\\" . implode("\\", $nameArray) : '');
+    }
+
+    protected function getClass($name)
+    {
+        $nameArray = explode("\\", $name);
+
+        return end($nameArray);
+    }
+
+    protected function setNamespace($stub, $namespace)
+    {
+        return str_replace('DummyNamespace', $namespace, $stub);
     }
 
     protected function replaceClassName($stub, $name)
