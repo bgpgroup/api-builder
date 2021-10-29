@@ -13,6 +13,7 @@ use BgpGroup\ApiBuilder\Commands\ApiMigrationBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ApiTestBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ApiFactoryBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ApiDTObjectBuilderCommand;
+use BgpGroup\ApiBuilder\Commands\ApiCollectionDTOBuilderCommand;
 
 class ApiBuilderServiceProvider extends ServiceProvider
 {
@@ -34,6 +35,7 @@ class ApiBuilderServiceProvider extends ServiceProvider
                 ApiTestBuilderCommand::class,
                 ApiFactoryBuilderCommand::class,
                 ApiDTObjectBuilderCommand::class,
+                ApiCollectionDTOBuilderCommand::class,
             ]);
         }
     }

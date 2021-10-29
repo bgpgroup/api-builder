@@ -49,4 +49,13 @@ return [
 		'base' => 'app/',
 	],
 
+	'dto-collection' => [
+
+		'namespace' => 'App\Dto',
+
+		'base' => 'app/',
+
+		'extends' => 'Illuminate\Support\Collection',
+	],
+
 ];
