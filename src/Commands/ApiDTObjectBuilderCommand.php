@@ -136,7 +136,7 @@ class ApiDTObjectBuilderCommand extends GeneratorCommand
                     continue;
                 }
                 list($type, $name) = explode(':', $field);
-                $result .= "\n\t\tpublic $type \$$name,";            }
+                $result .= "\n\t\tpublic ?$type \$$name,";            }
         }
 
         return $result;

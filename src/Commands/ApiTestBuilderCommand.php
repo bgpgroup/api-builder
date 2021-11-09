@@ -15,6 +15,7 @@ class ApiTestBuilderCommand extends GeneratorCommand
      */
     protected $signature = 'bgp:make:test 
                             {name} : The name of the test
+                            {--group= : The group.}
                             ';
 
     /**
@@ -40,7 +41,7 @@ class ApiTestBuilderCommand extends GeneratorCommand
     protected function getPath($name)
     {
         $name = str_replace($this->laravel->getNamespace(), '', $name);
-        return base_path('tests/Feature/') . $name . 'Test.php';
+        return base_path('tests/Feature/') . $this->option('group') . '/' . $name . 'Test.php';
     }
 
     /**
@@ -52,10 +53,15 @@ class ApiTestBuilderCommand extends GeneratorCommand
      */
     protected function replaceClass($stub, $name)
     {
+        $name = str_replace("App\\", '', $name);
+        $namespace = $this->getNamespace($name);
+
         if(!$this->argument('name')){
             throw new InvalidArgumentException("Missing required argument test name");
         }
 
+        $stub = $this->setNamespace($stub, $namespace);
+        $stub = $this->replaceModelClass($stub, $this->argument('name'));
         $stub = $this->replaceClassName($stub, $this->argument('name'));
         $stub = $this->replacePluralName($stub, $this->argument('name'));
         $stub = $this->replaceBaseEndpoint($stub);
@@ -98,5 +104,35 @@ class ApiTestBuilderCommand extends GeneratorCommand
     {
         $text = "->makeHidden(['" . implode("','", config('api-builder.tests.hide_fields')) . "'])";
         return str_replace('{{makeHidden}}', $text, $stub);
+    }
+
+    protected function replaceModelClass($stub, $name)
+    {
+        $name = str_replace('Test', '', $name);
+        
+        $group = str_replace("/", "\\", $this->option('group')) ;
+
+        $name = 'Domain' . "\\" . $group .  "\\" . "Models" . "\\" . $name;
+
+        $name = str_replace("/", "\\", $name);
+
+        return str_replace('DummyModelUse', $name, $stub);
+    }
+
+    protected function getNamespace($name)
+    {
+        return $this->getDomainPath();
+    }
+
+    protected function getDomainPath($type = '')
+    {
+        $group = str_replace("/", "\\", $this->option('group')) ;
+
+        return 'Tests\Feature' . "\\" . $group .  (!empty($type) ? ("\\" . $type) : '');
+    }
+
+    protected function setNamespace($stub, $namespace)
+    {
+        return str_replace('DummyNamespace', $namespace, $stub);
     }
 }

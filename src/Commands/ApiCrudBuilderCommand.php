@@ -92,16 +92,17 @@ class ApiCrudBuilderCommand extends Command
             '--columns' => $columns
         ]);
         
-        // php artisan bgp:make:factory BookFactory --columns='string:name;text:description;foreign:author_id'
-
+        // php artisan bgp:make:factory BookFactory --columns='string:name;text:description;foreign:author_id' --group='Parties/People'
         $this->call('bgp:make:factory', [
             'name' => $model . 'Factory',
-            '--columns' => $columns
+            '--columns' => $columns,
+            '--group' => $group
         ]);
         
-        // php artisan bgp:make:test Phone
+        // php artisan bgp:make:test Phone --group='Parties/People'
         $this->call('bgp:make:test', [
-            'name' => $model
+            'name' => $model,
+            '--group' => $group
         ]);
 
         File::append($routeFile, "\n" . implode("\n", $this->addRoutes($routeName, $model . 'Controller')));

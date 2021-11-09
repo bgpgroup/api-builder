@@ -83,7 +83,7 @@ class ApiControllerDTOBuilderCommand extends GeneratorCommand
 
     protected function getNamespace($name)
     {
-        return $this->getDomainPath('Controllers');
+        return $this->getCorePath('Controllers');
     }
 
     protected function getClass($name)
@@ -150,7 +150,7 @@ class ApiControllerDTOBuilderCommand extends GeneratorCommand
     {
         $name = str_replace("/", "\\", $name);
 
-        $name = $this->getCorePath('Collections') . "\\". $name . 'Collection';
+        $name = $this->getDomainPath('Collections') . "\\". $name . 'Collection';
 
         return str_replace('DummyCollectionUse', $name, $stub);
     }

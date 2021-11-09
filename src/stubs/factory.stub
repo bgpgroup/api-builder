@@ -1,8 +1,8 @@
 <?php
 
-namespace Database\Factories;
+namespace DummyNamespace;
 
-use App\Models\Dummy;
+use DummyModelUse;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DummyFactory extends Factory
