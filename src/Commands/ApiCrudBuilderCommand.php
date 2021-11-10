@@ -21,6 +21,7 @@ class ApiCrudBuilderCommand extends Command
                             {--columns= : The list of types of colums.}
                             {--tests= : If this option exists, it run the tests created.}
                             {--group= : Namespace of the class}
+                            {--migration= : y/n default y}
                             ';
     // php artisan bgp:make:crud sales --fields=int:id,string:name,string:description,float:price --rules='name=required;description=nullable;price=numeric' --columns='string:name,50;text:description|nullable' --group='Orders/Sales'
 
@@ -85,12 +86,14 @@ class ApiCrudBuilderCommand extends Command
             'name' => $model . 'Controller',
             '--group' => $group
         ]);
-        
-        // php artisan bgp:make:migration invoices --columns='string:name,50;text:description|nullable'
-        $this->call('bgp:make:migration', [
-            'name' => $tableName,
-            '--columns' => $columns
-        ]);
+
+        if ($this->option('migration', 'y') == 'n') {
+            // php artisan bgp:make:migration invoices --columns='string:name,50;text:description|nullable'
+            $this->call('bgp:make:migration', [
+                'name' => $tableName,
+                '--columns' => $columns
+            ]);
+        }
         
         // php artisan bgp:make:factory BookFactory --columns='string:name;text:description;foreign:author_id' --group='Parties/People'
         $this->call('bgp:make:factory', [
