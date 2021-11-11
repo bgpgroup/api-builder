@@ -96,7 +96,7 @@ class ApiTestBuilderCommand extends GeneratorCommand
 
     protected function replaceEndpointName($stub, $name)
     {
-        $name = Str::plural(Str::snake($name));
+        $name = Str::plural(Str::snake($name, '-'));
         return str_replace('{{endpoint_name}}', $name, $stub);
     }
 

@@ -41,6 +41,7 @@ class ApiMigrationBuilderCommand extends GeneratorCommand
     protected function getPath($name)
     {
         $name = str_replace($this->laravel->getNamespace(), '', $name);
+        $name = str_replace('-', '_', $name);
         return database_path('/migrations/') . date('Y_m_d_His') . '_create_' . $name . '_table.php';
     }
 

@@ -23,7 +23,7 @@ class ApiCrudBuilderCommand extends Command
                             {--group= : Namespace of the class}
                             {--migration= : y/n default y}
                             ';
-    // php artisan bgp:make:crud sales --fields=int:id,string:name,string:description,float:price --rules='name=required;description=nullable;price=numeric' --columns='string:name,50;text:description|nullable' --group='Orders/Sales'
+    // php artisan bgp:make:crud sales --fields=int:id,string:name,string:description,float:price --rules='name=required;description=nullable;price=numeric' --columns='string:name,50;text:description|nullable' --group='Orders/Sales' --migration=y
 
 
     /**
@@ -87,7 +87,7 @@ class ApiCrudBuilderCommand extends Command
             '--group' => $group
         ]);
 
-        if ($this->option('migration', 'y') == 'n') {
+        if ($this->option('migration', 'y') == 'y') {
             // php artisan bgp:make:migration invoices --columns='string:name,50;text:description|nullable'
             $this->call('bgp:make:migration', [
                 'name' => $tableName,
