@@ -16,6 +16,7 @@ class ApiModelBuilderCommand extends GeneratorCommand
     protected $signature = 'bgp:make:model 
                             {name} : The name of the model
                             {--fields= : The list of fields separated by comma.}
+                            {--group= : The group.}
                             ';
 
     /**
@@ -83,6 +84,8 @@ class ApiModelBuilderCommand extends GeneratorCommand
 
         $stub = parent::replaceClass($stub, $classname);
 
+        $stub = $this->replaceGroup($stub);
+
         $stub = $this->setNamespace($stub, $namespace);
 
         $stub = $this->replaceClassName($stub, $classname);
@@ -118,7 +121,7 @@ class ApiModelBuilderCommand extends GeneratorCommand
 
     protected function replaceClassName($stub, $name)
     {
-        return str_replace('DummyModel', $name, $stub);
+        return str_replace('{{DummyModel}}', $name, $stub);
     }
 
     protected function replaceExtends($stub, $name)
@@ -151,5 +154,13 @@ class ApiModelBuilderCommand extends GeneratorCommand
         }
 
         return $fillableFields;
+    }
+
+    protected function replaceGroup($stub)
+    {
+        $group = str_replace("/", "\\", $this->option('group'));
+        $group = empty($group) ? '' : $group . "\\";
+
+        return str_replace('{{groupNamespace}}', $group, $stub);
     }
 }

@@ -2,13 +2,24 @@
 
 namespace DummyNamespace;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use DummyExtendsPath;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Database\Factories\{{groupNamespace}}{{DummyModel}}Factory;
 
-class DummyModel extends DummyExtendsName
+class {{DummyModel}} extends DummyExtendsName
 {
     use HasFactory;
 
     protected $fillable = [{{fillableFields}}
     ];
+
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    protected static function newFactory()
+    {
+        return {{DummyModel}}Factory::new();
+    }
 }

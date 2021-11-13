@@ -55,10 +55,11 @@ class ApiCrudBuilderCommand extends Command
         // $this->call('bgp:make:resource', ['name' => $model . 'Resource', '--fields' => $fields]);
         // $this->call('bgp:make:collection', ['name' => $model . 'Collection']);
 
-        // php artisan bgp:make:model Parties/People/Models/Holaw --fields=name,description
+        // php artisan bgp:make:model Parties/People/Models/Holaw --fields=name,description --group='Parties/People'
         $this->call('bgp:make:model', [
             'name' => $modelName,
             '--fields' => $this->getModelFields(),
+            '--group' => $group
         ]);        
         
         // php artisan bgp:make:dto Parties/People/DTObjects/OrderDTObject --model=Domain/Parties/People/Models/Order --fields=int:id,string:name,string:description,float:price
