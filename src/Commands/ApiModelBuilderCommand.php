@@ -90,7 +90,9 @@ class ApiModelBuilderCommand extends GeneratorCommand
 
         $stub = $this->replaceClassName($stub, $classname);
 
-        $stub = $this->replaceFillableFields($stub, $this->getFilableFields($fields));
+        $stub = $this->replaceFillableFields($stub, $this->getFillableFields($fields));
+
+        $stub = $this->replaceSearchableFields($stub, $this->getSearchableFields($fields));
 
         return  $this->replaceExtends($stub, config('api-builder.models.extends'));
 
@@ -139,7 +141,12 @@ class ApiModelBuilderCommand extends GeneratorCommand
         return str_replace('{{fillableFields}}', $fields, $stub);
     }
 
-    protected function getFilableFields($fields)
+    protected function replaceSearchableFields($stub, $fields)
+    {
+        return str_replace('{{searchableFields}}', $fields, $stub);
+    }
+
+    protected function getFillableFields($fields)
     {
         $fillableFields = '';
         if (trim($fields) != '') {
@@ -154,6 +161,24 @@ class ApiModelBuilderCommand extends GeneratorCommand
         }
 
         return $fillableFields;
+    }
+
+    protected function getSearchableFields($fields)
+    {
+        $searchableFields = '';
+        $defaultFields = ['name', 'description'];
+        if (trim($fields) != '') {
+
+            $fields = explode(',', $fields);
+            foreach ($fields as $field) {
+                if (trim($field) == '' || !in_array($field, $defaultFields)) {
+                    continue;
+                }
+                $searchableFields .= "\n\t\t'$field',";
+            }
+        }
+
+        return $searchableFields;
     }
 
     protected function replaceGroup($stub)

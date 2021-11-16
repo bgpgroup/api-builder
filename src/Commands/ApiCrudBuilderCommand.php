@@ -96,7 +96,7 @@ class ApiCrudBuilderCommand extends Command
             ]);
         }
         
-        // php artisan bgp:make:factory BookFactory --columns='string:name;text:description;foreign:author_id' --group='Parties/People'
+        // php artisan bgp:make:factory BookFactory --columns='string:name;text:description;switch:active;foreign:author_id' --group='Parties/People'
         $this->call('bgp:make:factory', [
             'name' => $model . 'Factory',
             '--columns' => $columns,

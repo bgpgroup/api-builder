@@ -106,6 +106,7 @@ class ApiFactoryBuilderCommand extends GeneratorCommand
         $typeValues = [
             'string' => '$this->faker->word',
             'text' => '$this->faker->sentence',
+            'switch' => '$this->faker->randomElement(["on", "off"])',
         ];
 
         if (trim($columns) != '') {

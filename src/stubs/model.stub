@@ -3,14 +3,19 @@
 namespace DummyNamespace;
 
 use DummyExtendsPath;
+use BgpGroup\Searchable\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Database\Factories\{{groupNamespace}}{{DummyModel}}Factory;
 
 class {{DummyModel}} extends DummyExtendsName
 {
     use HasFactory;
+    use Searchable;
 
     protected $fillable = [{{fillableFields}}
+    ];
+
+    protected $searchable = [{{searchableFields}}
     ];
 
     /**
