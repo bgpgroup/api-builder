@@ -31,7 +31,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "BgpGroup\\ApiBuilder\\Providers\\ApiBuilderServiceProvider"
+                "BgpGroup\\ApiBuilder\\Providers\\"
             ]
         }
     }

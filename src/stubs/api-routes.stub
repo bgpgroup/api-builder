@@ -1,0 +1,11 @@
+<?php
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use Modules\$CAMEL_MODULE_NAME$\Controllers as Control;
+
+Route::middleware(['auth:sanctum', 'api'])->prefix('api/$LOWER_MODULE_NAME$')->group(function () {
+
+   
+
+});

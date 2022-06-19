@@ -3,6 +3,7 @@
 namespace BgpGroup\ApiBuilder\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use BgpGroup\ApiBuilder\Commands\ModuleBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ApiModelBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ApiRequestBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ApiCollectionBuilderCommand;
@@ -15,6 +16,9 @@ use BgpGroup\ApiBuilder\Commands\ApiFactoryBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ApiDTObjectBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ApiCollectionDTOBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ApiControllerDTOBuilderCommand;
+use BgpGroup\ApiBuilder\Commands\AppProviderBuilderCommand;
+use BgpGroup\ApiBuilder\Commands\AuthProviderBuilderCommand;
+use BgpGroup\ApiBuilder\Commands\ApiRouterBuilderCommand;
 
 class ApiBuilderServiceProvider extends ServiceProvider
 {
@@ -26,6 +30,7 @@ class ApiBuilderServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->commands([
+                ModuleBuilderCommand::class,
                 ApiModelBuilderCommand::class,
                 ApiRequestBuilderCommand::class,
                 ApiCollectionBuilderCommand::class,
@@ -38,7 +43,12 @@ class ApiBuilderServiceProvider extends ServiceProvider
                 ApiDTObjectBuilderCommand::class,
                 ApiCollectionDTOBuilderCommand::class,
                 ApiControllerDTOBuilderCommand::class,
+                AppProviderBuilderCommand::class,
+                AuthProviderBuilderCommand::class,
+                ApiRouterBuilderCommand::class,
             ]);
         }
+
+        $this->loadRoutesFrom(__DIR__.'/web.php');
     }
 }

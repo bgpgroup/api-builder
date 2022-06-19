@@ -1,0 +1,39 @@
+<?php
+
+namespace Modules\$CAMEL_MODULE_NAME$\Providers;
+
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Config;
+
+class AppServiceProvider extends ServiceProvider
+{
+    /**
+     * This namespace is applied to your controller routes.
+     *
+     * In addition, it is set as the URL generator's root namespace.
+     *
+     * @var string
+     */
+    protected $namespace = 'Modules\\$CAMEL_MODULE_NAME$\\Controllers';
+
+    public function boot()
+    {
+        parent::boot();
+
+        $this->loadRoutesFrom(base_path('src/Modules/$CAMEL_MODULE_NAME$/routes/api.php'));
+
+        $this->loadMigrationsFrom(base_path('src/Modules/$CAMEL_MODULE_NAME$/migrations'));
+
+        $this->loadFactoriesFrom(base_path('src/Modules/$CAMEL_MODULE_NAME$/Factories'));
+    }
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        Config::set('$LOWER_MODULE_NAME$', require base_path('src/Modules/$CAMEL_MODULE_NAME$/config/$LOWER_MODULE_NAME$.php'));
+    }
+}
