@@ -6,14 +6,14 @@ use Illuminate\Support\Str;
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 
-class AppProviderBuilderCommand extends GeneratorCommand
+class ResourceBuilderCommand extends GeneratorCommand
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'bgp:make:app-provider 
+    protected $signature = 'bgp:make:resource 
                             {name} : The name of the module
                             ';
 

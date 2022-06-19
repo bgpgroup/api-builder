@@ -6,15 +6,16 @@ use Illuminate\Support\Str;
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 
-class AppProviderBuilderCommand extends GeneratorCommand
+class CollectionBuilderCommand extends GeneratorCommand
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'bgp:make:app-provider 
-                            {name} : The name of the module
+    protected $signature = 'bgp:make:collection 
+                            {name} : The name of the collection
+                            {--module= : The moule name}
                             ';
 
     /**
@@ -22,9 +23,9 @@ class AppProviderBuilderCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $description = 'Generate App Provider';
+    protected $description = 'Generate Collection';
 
-    protected $type = 'Provider';
+    protected $type = 'Collection';
 
     /**
      * 
@@ -34,12 +35,12 @@ class AppProviderBuilderCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__.'/../stubs/' . '/' . 'app-service-provider.stub';
+        return __DIR__.'/../stubs/' . '/' . 'collection.stub';
     }
 
     protected function getPath($name)
     {
-        return 'src/Modules/' . Str::studly($this->argument('name')) . '/Providers/AppServiceProvider.php';
+        return 'src/Modules/' . Str::studly($this->option('module')) . '/Collections/' . Str::studly($this->argument('name')) . 'Collection.php';
     }
 
     /**
@@ -52,11 +53,11 @@ class AppProviderBuilderCommand extends GeneratorCommand
     protected function replaceClass($stub, $name)
     {
         if(!$this->argument('name')){
-            throw new InvalidArgumentException("Missing required argument module");
+            throw new InvalidArgumentException("Missing required argument name");
         }
 
-        $stub = str_replace('$LOWER_MODULE_NAME$', Str::lower($this->argument('name')), $stub);
+        $stub = str_replace('$CAMEL_RESOURCE_NAME$', Str::studly($this->argument('name')), $stub);
 
-        return str_replace('$CAMEL_MODULE_NAME$', Str::studly($this->argument('name')), $stub);
+        return str_replace('$CAMEL_MODULE_NAME$', Str::studly($this->option('module')), $stub);
     }
 }

@@ -1,83 +1,104 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Modules\$CAMEL_MODULE_NAME$\Controllers;
 
-use App\Models\Dummy;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Http\JsonResponse;
-use App\Http\Resources\DummyResource;
-use App\Http\Requests\DummyRequest;
+use Modules\$CAMEL_MODULE_NAME$\Models\$CAMEL_RESOURCE_NAME$;
+use Support\Responses\DataResponse;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\DummyCollection;
+use Support\Responses\PaginationDataResponse;
+use Modules\$CAMEL_MODULE_NAME$\Requests\$CAMEL_RESOURCE_NAME$Request;
+use Modules\$CAMEL_MODULE_NAME$\DTObjects\$CAMEL_RESOURCE_NAME$DTObject;
+use Modules\$CAMEL_MODULE_NAME$\Collections\$CAMEL_RESOURCE_NAME$Collection;
+use Illuminate\Http\JsonResponse;
 
-class DummyController extends Controller
-{    
+class $CAMEL_RESOURCE_NAME$Controller extends Controller
+{
     /**
      * Display a listing of the resource.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return App\Http\Resources\DummyCollection
+     * @return \Support\Responses\PaginationDataResponse|\Illuminate\Http\JsonResponse
      */
-    public function index(Request $request) : DummyCollection
+    public function index(Request $request) : PaginationDataResponse|JsonResponse
     {
-        $result = Dummy::query()
-            ->search($request->search)
-            ->orderBy($request->get('sort', 'id'), $request->get('direction', 'asc'))
-            ->paginate($request->get('per_page', 10));
+        $this->authorize('viewAny', [$CAMEL_RESOURCE_NAME$::class, $request->company_id]);
 
-        return new DummyCollection($result);
+        $data = $CAMEL_RESOURCE_NAME$::query()
+            ->company($request->company_id)
+            ->filterByMultiple($request->get('filters', []))
+            ->orderByMultiple($request->get('sorters', []))
+            ->orderBy($request->get('sort', 'id'), $request->get('direction', 'asc'))
+            //->cache()
+            ->paginate($request->get('per_page', 15));
+
+        return new PaginationDataResponse([
+            'paginator' => $data,
+            'collection' => $CAMEL_RESOURCE_NAME$Collection::fromArray($data->items()),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\DummyRequest  $request
-     * @return Illuminate\Http\JsonResponse
+     * @param  \Modules\$CAMEL_MODULE_NAME$\Requests\$CAMEL_RESOURCE_NAME$Request  $request
+     * @return \Support\Responses\DataResponse|\Illuminate\Http\JsonResponse
      */
-    public function store(DummyRequest $request) : JsonResponse
+    public function store($CAMEL_RESOURCE_NAME$Request $request) : DataResponse|JsonResponse
     {
-        {{model}} = Dummy::create($request->validated());
+        $this->authorize('create', [$CAMEL_RESOURCE_NAME$::class, $request->company_id]);
 
-        return (new DummyResource({{model}}))
-            ->response()
-            ->setStatusCode(201);
+        $$LOWER_RESOURCE_NAME$ = $CAMEL_RESOURCE_NAME$::create([
+            ...$request->validated(),
+            ...['company_id' => $request->company_id, 'created_by' => $request->user()->id]
+        ]);
+
+        return DataResponse::fromDTObject($CAMEL_RESOURCE_NAME$DTObject::fromModel($$LOWER_RESOURCE_NAME$), 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Dummy  {{model}}
-     * @return \App\Http\Resources\DummyResource
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Modules\$CAMEL_MODULE_NAME$\Models\$CAMEL_RESOURCE_NAME$  $$LOWER_RESOURCE_NAME$
+     * @return \Support\Responses\DataResponse|\Illuminate\Http\JsonResponse
      */
-    public function show(Dummy {{model}}) : DummyResource
+    public function show(Request $request, $CAMEL_RESOURCE_NAME$ $$LOWER_RESOURCE_NAME$) : DataResponse|JsonResponse
     {
-        return new DummyResource({{model}});
+        $this->authorize('view', $$LOWER_RESOURCE_NAME$);
+
+        return DataResponse::fromDTObject($CAMEL_RESOURCE_NAME$DTObject::fromModel($$LOWER_RESOURCE_NAME$));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\DummyRequest  $request
-     * @param  \App\Models\Dummy  {{model}}
-     * @return \Illuminate\Http\JsonResponse
+     * @param  \Modules\$CAMEL_MODULE_NAME$\Requests\$CAMEL_RESOURCE_NAME$Request  $request
+     * @param  \Modules\$CAMEL_MODULE_NAME$\Models\$CAMEL_RESOURCE_NAME$  $$LOWER_RESOURCE_NAME$
+     * @return \Support\Responses\DataResponse|\Illuminate\Http\JsonResponse
      */
-    public function update(DummyRequest $request, Dummy {{model}}) : DummyResource
+    public function update($CAMEL_RESOURCE_NAME$Request $request, $CAMEL_RESOURCE_NAME$ $$LOWER_RESOURCE_NAME$) : DataResponse|JsonResponse
     {
-        {{model}}->update($request->validated());
+        $this->authorize('update', $$LOWER_RESOURCE_NAME$);
 
-        return new DummyResource({{model}});
+        $$LOWER_RESOURCE_NAME$->update($request->validated());
+
+        return DataResponse::fromDTObject($CAMEL_RESOURCE_NAME$DTObject::fromModel($$LOWER_RESOURCE_NAME$->refresh()));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Dummy  {{model}}
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Modules\$CAMEL_MODULE_NAME$\Models\$CAMEL_RESOURCE_NAME$  $$LOWER_RESOURCE_NAME$
+     * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
      */
-    public function destroy(Dummy {{model}}) : Response
+    public function destroy(Request $request, $CAMEL_RESOURCE_NAME$ $$LOWER_RESOURCE_NAME$) : Response|JsonResponse
     {
-        {{model}}->delete();
+        $this->authorize('delete', $$LOWER_RESOURCE_NAME$);
+
+        $$LOWER_RESOURCE_NAME$->delete();
 
         return response()->noContent();
     }

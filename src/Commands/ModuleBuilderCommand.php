@@ -37,10 +37,10 @@ class ModuleBuilderCommand extends Command
         File::makeDirectory($path . '/Tests/Feature');
         $this->updatePhpunitXml();
         
+        $this->call('bgp:make:config', ['name' => $this->argument('name')]);
         $this->call('bgp:make:api-router', ['name' => $this->argument('name')]);
         $this->call('bgp:make:app-provider', ['name' => $this->argument('name')]);
         $this->call('bgp:make:auth-provider', ['name' => $this->argument('name')]);
-
     }
 
     protected function updatePhpunitXml()
@@ -48,7 +48,6 @@ class ModuleBuilderCommand extends Command
         $content = file_get_contents(base_path('phpunit.xml'));
         $search = '<testsuite name="Feature">';
         $replace = '<testsuite name="Feature">' . "\n\t\t\t" . '<directory suffix="Test.php">./src/Modules/' . Str::studly($this->argument('name')) . '/Tests/Feature</directory>';
-        //$content = str_replace('<', '&lt;', $content);
         $content = str_replace($search, $replace, $content);
         file_put_contents(base_path('phpunit.xml'), $content);
     }

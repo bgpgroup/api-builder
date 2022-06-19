@@ -1,19 +1,33 @@
 <?php
 
-namespace App\Http\Resources;
+namespace Module\$CAMEL_MODULE_NAME$\Collections;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Module\$CAMEL_MODULE_NAME$\DTObjects\$CAMEL_RESOURCE_NAME$DTObject;
+use Module\$CAMEL_MODULE_NAME$\Models\$CAMEL_RESOURCE_NAME$;
+use Support\Collections\ObjectDataCollection;
+use Illuminate\Database\Eloquent\Collection;
 
-class DummyCollection extends ResourceCollection
+class $CAMEL_RESOURCE_NAME$Collection extends ObjectDataCollection
 {
     /**
-     * Transform the resource collection into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
+     * @param $CAMEL_RESOURCE_NAME$[]  $data
+     * @return $CAMEL_RESOURCE_NAME$Collection
      */
-    public function toArray($request)
+    public static function fromArray(array $data): $CAMEL_RESOURCE_NAME$Collection
     {
-        return parent::toArray($request);
+        return new static(
+            array_map(fn($CAMEL_RESOURCE_NAME$ $item) => $CAMEL_RESOURCE_NAME$DTObject::fromModel($item), $data)
+        );
+    }
+
+    /**
+     * @param Collection  $data
+     * @return $CAMEL_RESOURCE_NAME$Collection
+     */
+    public static function fromCollection(Collection $data): $CAMEL_RESOURCE_NAME$Collection
+    {
+        return new static(
+            $data->map(fn($CAMEL_RESOURCE_NAME$ $item) => $CAMEL_RESOURCE_NAME$DTObject::fromModel($item))
+        );
     }
 }
