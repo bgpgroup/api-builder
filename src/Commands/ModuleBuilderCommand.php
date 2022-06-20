@@ -14,7 +14,7 @@ class ModuleBuilderCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'bgp:make:module 
+    protected $signature = 'bgp:make:module
                             {name} : The name of the module
                             ';
 
@@ -36,11 +36,13 @@ class ModuleBuilderCommand extends Command
         File::makeDirectory($path . '/Tests');
         File::makeDirectory($path . '/Tests/Feature');
         $this->updatePhpunitXml();
-        
+
         $this->call('bgp:make:config', ['name' => $this->argument('name')]);
         $this->call('bgp:make:api-router', ['name' => $this->argument('name')]);
         $this->call('bgp:make:app-provider', ['name' => $this->argument('name')]);
         $this->call('bgp:make:auth-provider', ['name' => $this->argument('name')]);
+
+        $this->addedProvidersToCofig();
     }
 
     protected function updatePhpunitXml()
@@ -50,5 +52,14 @@ class ModuleBuilderCommand extends Command
         $replace = '<testsuite name="Feature">' . "\n\t\t\t" . '<directory suffix="Test.php">./src/Modules/' . Str::studly($this->argument('name')) . '/Tests/Feature</directory>';
         $content = str_replace($search, $replace, $content);
         file_put_contents(base_path('phpunit.xml'), $content);
+    }
+
+    protected function addedProvidersToCofig()
+    {
+        $content = file_get_contents(base_path('config/app.php'));
+        $search = '// BGP';
+        $replace = '// BGP' . "\n\t\t" . 'Modules\Locations\Providers\AppServiceProvider::class,' . "\n\t\t" . 'Modules\Locations\Providers\AuthServiceProvider::class,';
+        $content = str_replace($search, $replace, $content);
+        file_put_contents(base_path('config/app.php'), $content);
     }
 }
