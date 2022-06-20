@@ -13,7 +13,7 @@ class ControllerBuilderCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $signature = 'bgp:make:controller 
+    protected $signature = 'bgp:make:controller
                             {name} : The name of the module
                             {--module= : The moule name}
                             ';
@@ -28,7 +28,7 @@ class ControllerBuilderCommand extends GeneratorCommand
     protected $type = 'Controller';
 
     /**
-     * 
+     *
      * Get the stub file for the generator.
      *
      * @return string

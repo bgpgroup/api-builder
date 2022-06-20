@@ -58,7 +58,9 @@ class ModuleBuilderCommand extends Command
     {
         $content = file_get_contents(base_path('config/app.php'));
         $search = '// BGP';
-        $replace = '// BGP' . "\n\t\t" . 'Modules\Locations\Providers\AppServiceProvider::class,' . "\n\t\t" . 'Modules\Locations\Providers\AuthServiceProvider::class,';
+        $replace = '// BGP' .
+            "\n\t\t" . 'Modules\\'. Str::studly($this->argument('name')) . '\Providers\AppServiceProvider::class,' .
+            "\n\t\t" . 'Modules\\'. Str::studly($this->argument('name')) . '\Providers\AuthServiceProvider::class,';
         $content = str_replace($search, $replace, $content);
         file_put_contents(base_path('config/app.php'), $content);
     }
