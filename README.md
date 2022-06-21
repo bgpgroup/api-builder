@@ -8,7 +8,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/bgpgroup/api-builder.svg?style=flat-square)](https://packagist.org/packages/bgpgroup/api-builder)
 
 
-`bgpgroup/api-builder` is a Laravel package for BGP system which allow to build Modules and Resources via commands. 
+API Builder is a Laravel package for BGP system which allow to build Modules and Resources via commands. 
 
 Using this package you can build:
 
@@ -45,13 +45,13 @@ php artisan bgp:make:module Sales
 Where *Sales* will be the module name
 
 This command will create:
-- src/Modules/Sales/Providers/AppServiceProvider.php
-- src/Modules/Sales/Providers/AuthServiceProvider.php
-- src/Modules/Sales/config/sales.php
-- src/Modules/Sales/routes/api.php
+- `src/Modules/Sales/Providers/AppServiceProvider.php`
+- `src/Modules/Sales/Providers/AuthServiceProvider.php`
+- `src/Modules/Sales/config/sales.php`
+- `src/Modules/Sales/routes/api.php`
 
 ### Collections
-To build a new collection, by run the following command:
+Run the following command to build a collection:
 
 ```bash
 php artisan bgp:make:collection Order --module=Sales
@@ -60,10 +60,10 @@ php artisan bgp:make:collection Order --module=Sales
 *Sales* will be the module name
 
 This command will create:
-- src/Modules/Sales/Collections/OrderCollection.php
+- `src/Modules/Sales/Collections/OrderCollection.php`
 
-### Controller
-To build a new controller, by run the following command:
+### Controllers
+For controllers, run the following command:
 
 ```bash
 php artisan bgp:make:controller Order --module=Sales
@@ -72,13 +72,13 @@ php artisan bgp:make:controller Order --module=Sales
 *Sales* will be the module name
 
 This command will create:
-- src/Modules/Sales/Controllers/OrderController.php
+- `src/Modules/Sales/Controllers/OrderController.php`
 
-### Migration
+### Migrations
 
 Before run the command, you must setup the table columns
 
-Edit src/Modules/Sales/config/sales.php adding 'resource' key like:
+Edit `src/Modules/Sales/config/sales.php` adding 'resources' key like:
 
 ```php
 <?php
@@ -93,7 +93,7 @@ return [
 ];
 
 ```
-And create a new php file src/Modules/Sales/config/builder.php with the following content as an example: 
+And create a new php file `src/Modules/Sales/config/builder.php` with the following content as an example: 
 
 ```php
 <?php
@@ -155,7 +155,7 @@ php artisan bgp:make:migration Order --module=Sales
 *Sales* will be the module name
 
 This command will create:
-- src/Modules/Sales/migrations/2022_06_20_212536_create_orders_table.php
+- `src/Modules/Sales/migrations/2022_06_20_212536_create_orders_table.php`
 
 With the previous configuration, this will be the generated code:
 
