@@ -56,7 +56,7 @@ Run the following command to build a collection:
 ```bash
 php artisan bgp:make:collection Order --module=Sales
 ```
-*Order* will be the resource name
+*Order* will be the resource name and 
 *Sales* will be the module name
 
 This command will create:
@@ -68,7 +68,7 @@ For controllers, run the following command:
 ```bash
 php artisan bgp:make:controller Order --module=Sales
 ```
-*Order* will be the resource name
+*Order* will be the resource name and
 *Sales* will be the module name
 
 This command will create:
@@ -151,7 +151,7 @@ This config file allown you to generete the table columns in the migration file 
 ```bash
 php artisan bgp:make:migration Order --module=Sales
 ```
-*Order* will be the resource name
+*Order* will be the resource name and
 *Sales* will be the module name
 
 This command will create:
