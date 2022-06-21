@@ -49,7 +49,7 @@ class ModuleBuilderCommand extends Command
     {
         $content = file_get_contents(base_path('phpunit.xml'));
         $search = '<testsuite name="Feature">';
-        $replace = '<testsuite name="Feature">' . "\n\t\t\t" . '<directory suffix="Test.php">./src/Modules/' . Str::studly($this->argument('name')) . '/Tests/Feature</directory>';
+        $replace = '<testsuite name="Feature">' . "\n            " . '<directory suffix="Test.php">./src/Modules/' . Str::studly($this->argument('name')) . '/Tests/Feature</directory>';
         $content = str_replace($search, $replace, $content);
         file_put_contents(base_path('phpunit.xml'), $content);
     }
@@ -59,8 +59,8 @@ class ModuleBuilderCommand extends Command
         $content = file_get_contents(base_path('config/app.php'));
         $search = '// BGP';
         $replace = '// BGP' .
-            "\n\t\t" . 'Modules\\'. Str::studly($this->argument('name')) . '\Providers\AppServiceProvider::class,' .
-            "\n\t\t" . 'Modules\\'. Str::studly($this->argument('name')) . '\Providers\AuthServiceProvider::class,';
+            "\n        " . 'Modules\\'. Str::studly($this->argument('name')) . '\Providers\AppServiceProvider::class,' .
+            "\n        " . 'Modules\\'. Str::studly($this->argument('name')) . '\Providers\AuthServiceProvider::class,';
         $content = str_replace($search, $replace, $content);
         file_put_contents(base_path('config/app.php'), $content);
     }

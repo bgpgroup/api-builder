@@ -84,12 +84,12 @@ class MigrationBuilderCommand extends GeneratorCommand
         foreach ($columns as $name => $options) {
 
             if ($name == 'id' && $options) {
-                $result .= "\n\t\t\t\$table->uuid('id')->primary();";
+                $result .= "\n            \$table->uuid('id')->primary();";
                 continue;
             }
 
             if (($options['type'] ?? false)) {
-                $result .= "\n\t\t\t\$table->" . $options['type'] . "('" . $name . "'";
+                $result .= "\n            \$table->" . $options['type'] . "('" . $name . "'";
                 $result .= ($options['type'] == 'string' && ($options['size'] ?? false)) ? ", " . $options['size'] : "";
                 $result .= ($options['type'] == 'enum' && $options['options'] ?? false) ? ", " . $options['options'] : "";
                 $result .= ")";
@@ -108,27 +108,27 @@ class MigrationBuilderCommand extends GeneratorCommand
             }
 
             if ($name == 'active' && $options) {
-                $result .= "\n\t\t\t\$table->enum('active',['on', 'off'])->default('on');";
+                $result .= "\n            \$table->enum('active',['on', 'off'])->default('on');";
                 continue;
             }
 
             if ($name == 'created_by' && $options) {
-                $result .= "\n\t\t\t\$table->foreignUuid('created_by')->nullable()->constrained('users');";
+                $result .= "\n            \$table->foreignUuid('created_by')->nullable()->constrained('users');";
                 continue;
             }
 
             if ($name == 'company_id' && $options) {
-                $result .= "\n\t\t\t\$table->foreignUuid('company_id');";
+                $result .= "\n            \$table->foreignUuid('company_id');";
                 continue;
             }
 
             if ($name == 'timestamps' && $options) {
-                $result .= "\n\t\t\t\$table->timestamps();";
+                $result .= "\n            \$table->timestamps();";
                 continue;
             }
 
             if ($name == 'soft_delete' && $options) {
-                $result .= "\n\t\t\t\$table->softDeletes();";
+                $result .= "\n            \$table->softDeletes();";
                 continue;
             }
         }
