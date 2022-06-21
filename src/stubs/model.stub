@@ -1,21 +1,25 @@
 <?php
 
-namespace DummyNamespace;
+namespace Modules\$CAMEL_MODULE_NAME$\Models;
 
-use DummyExtendsPath;
 use BgpGroup\Searchable\Searchable;
+use Modules\$CAMEL_MODULE_NAME$\Factories\$CAMEL_RESOURCE_NAME$Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Database\Factories\{{groupNamespace}}{{DummyModel}}Factory;
+use Support\Models\BaseModel;
+use Support\Traits\HasCompany;
 
-class {{DummyModel}} extends DummyExtendsName
+class $CAMEL_RESOURCE_NAME$ extends BaseModel
 {
     use HasFactory;
     use Searchable;
+    use HasCompany;
 
-    protected $fillable = [{{fillableFields}}
+    protected $table = '$TABLE_NAME$';
+
+    protected $fillable = [$FILLABLE_FIELDS$
     ];
 
-    protected $searchable = [{{searchableFields}}
+    protected $searchable = [$SEARCHABLE_FIELDS$
     ];
 
     /**
@@ -25,6 +29,6 @@ class {{DummyModel}} extends DummyExtendsName
      */
     protected static function newFactory()
     {
-        return {{DummyModel}}Factory::new();
+        return $CAMEL_RESOURCE_NAME$Factory::new();
     }
 }

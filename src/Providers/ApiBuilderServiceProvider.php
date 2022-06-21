@@ -4,9 +4,8 @@ namespace BgpGroup\ApiBuilder\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use BgpGroup\ApiBuilder\Commands\ModuleBuilderCommand;
-use BgpGroup\ApiBuilder\Commands\ApiModelBuilderCommand;
+use BgpGroup\ApiBuilder\Commands\ModelBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ApiRequestBuilderCommand;
-use BgpGroup\ApiBuilder\Commands\ApiCollectionBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ControllerBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ApiCrudBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\MigrationBuilderCommand;
@@ -30,9 +29,8 @@ class ApiBuilderServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 ModuleBuilderCommand::class,
-                ApiModelBuilderCommand::class,
+                ModelBuilderCommand::class,
                 ApiRequestBuilderCommand::class,
-                ApiCollectionBuilderCommand::class,
                 ApiCrudBuilderCommand::class,
                 MigrationBuilderCommand::class,
                 ApiTestBuilderCommand::class,
