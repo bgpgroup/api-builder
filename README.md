@@ -8,7 +8,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/bgpgroup/api-builder.svg?style=flat-square)](https://packagist.org/packages/bgpgroup/api-builder)
 
 
-API Builder is a Laravel package for BGP system which allow to build Modules and Resources via commands. 
+**API Builder** is a Laravel package for BGP system which allow to build Modules and Resources via commands. 
 
 Using this package you can build:
 
