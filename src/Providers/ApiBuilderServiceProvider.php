@@ -11,7 +11,7 @@ use BgpGroup\ApiBuilder\Commands\ApiCrudBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\MigrationBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ApiTestBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ApiFactoryBuilderCommand;
-use BgpGroup\ApiBuilder\Commands\ApiDTObjectBuilderCommand;
+use BgpGroup\ApiBuilder\Commands\DTObjectBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\CollectionBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\AppProviderBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\AuthProviderBuilderCommand;
@@ -35,7 +35,7 @@ class ApiBuilderServiceProvider extends ServiceProvider
                 MigrationBuilderCommand::class,
                 ApiTestBuilderCommand::class,
                 ApiFactoryBuilderCommand::class,
-                ApiDTObjectBuilderCommand::class,
+                DTObjectBuilderCommand::class,
                 CollectionBuilderCommand::class,
                 ControllerBuilderCommand::class,
                 AppProviderBuilderCommand::class,

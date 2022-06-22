@@ -1,24 +1,25 @@
 <?php
 
-namespace DummyNamespace;
+namespace Modules\$CAMEL_MODULE_NAME$\DTObjects;
 
-use DummyModelUse;
+use Illuminate\Database\Eloquent\Model;
+use Modules\$CAMEL_MODULE_NAME$\Models\$CAMEL_RESOURCE_NAME$;
 use Spatie\DataTransferObject\DataTransferObject;
 
-final class DummyClassName extends DataTransferObject
+final class $CAMEL_RESOURCE_NAME$DTObject extends DataTransferObject
 {
-    public function __construct({{declaration_fields}}
+    public function __construct($DECLARATION_FIELDS$
     ) {}
 
-    public static function fromModel(DummyModelName $model): DummyClassName
+    public static function fromModel($CAMEL_RESOURCE_NAME$|Model $model): $CAMEL_RESOURCE_NAME$DTObject
     {
-        return new static({{model_fields}}
+        return new static($MODEL_FIELDS$
         );
     }
 
-    public static function fromArray(array $data): DummyClassName
+    public static function fromArray(array $data): $CAMEL_RESOURCE_NAME$DTObject
     {
-        return new static({{array_fields}}
+        return new static($ARRAY_FIELDS$
         );
     }
 }
