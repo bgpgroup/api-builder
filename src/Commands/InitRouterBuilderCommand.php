@@ -6,14 +6,14 @@ use Illuminate\Support\Str;
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 
-class ApiRouterBuilderCommand extends GeneratorCommand
+class InitRouterBuilderCommand extends GeneratorCommand
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'bgp:make:api-router 
+    protected $signature = 'bgp:make:init-router 
                             {name} : The name of the module
                             ';
 

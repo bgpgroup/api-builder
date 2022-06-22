@@ -5,7 +5,7 @@ namespace BgpGroup\ApiBuilder\Providers;
 use Illuminate\Support\ServiceProvider;
 use BgpGroup\ApiBuilder\Commands\ModuleBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ModelBuilderCommand;
-use BgpGroup\ApiBuilder\Commands\ApiRequestBuilderCommand;
+use BgpGroup\ApiBuilder\Commands\RequestBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ControllerBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ApiCrudBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\MigrationBuilderCommand;
@@ -15,7 +15,7 @@ use BgpGroup\ApiBuilder\Commands\ApiDTObjectBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\CollectionBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\AppProviderBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\AuthProviderBuilderCommand;
-use BgpGroup\ApiBuilder\Commands\ApiRouterBuilderCommand;
+use BgpGroup\ApiBuilder\Commands\InitRouterBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ConfigBuilderCommand;
 
 class ApiBuilderServiceProvider extends ServiceProvider
@@ -30,7 +30,7 @@ class ApiBuilderServiceProvider extends ServiceProvider
             $this->commands([
                 ModuleBuilderCommand::class,
                 ModelBuilderCommand::class,
-                ApiRequestBuilderCommand::class,
+                RequestBuilderCommand::class,
                 ApiCrudBuilderCommand::class,
                 MigrationBuilderCommand::class,
                 ApiTestBuilderCommand::class,
@@ -40,7 +40,7 @@ class ApiBuilderServiceProvider extends ServiceProvider
                 ControllerBuilderCommand::class,
                 AppProviderBuilderCommand::class,
                 AuthProviderBuilderCommand::class,
-                ApiRouterBuilderCommand::class,
+                InitRouterBuilderCommand::class,
                 ConfigBuilderCommand::class,
             ]);
         }

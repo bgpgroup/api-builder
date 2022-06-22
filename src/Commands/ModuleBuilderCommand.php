@@ -38,7 +38,7 @@ class ModuleBuilderCommand extends Command
         $this->updatePhpunitXml();
 
         $this->call('bgp:make:config', ['name' => $this->argument('name')]);
-        $this->call('bgp:make:api-router', ['name' => $this->argument('name')]);
+        $this->call('bgp:make:init-router', ['name' => $this->argument('name')]);
         $this->call('bgp:make:app-provider', ['name' => $this->argument('name')]);
         $this->call('bgp:make:auth-provider', ['name' => $this->argument('name')]);
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace DummyNamespace;
+namespace Modules\$CAMEL_MODULE_NAME$\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DummyRequest extends FormRequest
+class $CAMEL_RESOURCE_NAME$Request extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,14 +23,19 @@ class DummyRequest extends FormRequest
      */
     public function rules()
     {
-        return [{{validationFields}}
-        ];
+        return $this->getMethod() == 'POST'
+            ?
+                [$CREATE_RULES$
+                ]
+            :
+                [$UPDATE_RULES$
+                ]
+        ;
     }
 
     public function messages()
     {
-        return [
-
+        return [$MESSAGES$
         ];
     }
 }
