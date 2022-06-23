@@ -81,12 +81,12 @@ class ModelBuilderCommand extends GeneratorCommand
 
         $stub = str_replace('$CAMEL_RESOURCE_NAME$', Str::studly($this->argument('name')), $stub);
 
-        $stub = str_replace('$FILLABLE_FIELDS$', $this->getFilables(), $stub);
+        $stub = str_replace('$FILLABLE_FIELDS$', $this->getFillable(), $stub);
 
         return str_replace('$SEARCHABLE_FIELDS$', $this->getSearchable(), $stub);
     }
 
-    protected function getFilables()
+    protected function getFillable()
     {
         $fields = $this->fillable();
 

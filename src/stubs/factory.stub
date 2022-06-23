@@ -1,18 +1,21 @@
 <?php
 
-namespace DummyNamespace;
+namespace Modules\$CAMEL_MODULE_NAME$\Factories;
 
-use DummyModelUse;
+use Modules\$CAMEL_MODULE_NAME$\Models\$CAMEL_RESOURCE_NAME$;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Database\Factories\Traits\WithCompany;
 
-class DummyFactory extends Factory
+class $CAMEL_RESOURCE_NAME$Factory extends Factory
 {
+    use WithCompany;
+
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Dummy::class;
+    protected $model = $CAMEL_RESOURCE_NAME$::class;
 
     /**
      * Define the model's default state.
@@ -21,7 +24,7 @@ class DummyFactory extends Factory
      */
     public function definition()
     {
-        return [{{columns}}
+        return [$FIELDS_DEFINITION$
         ];
     }
 }
