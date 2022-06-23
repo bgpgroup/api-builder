@@ -9,7 +9,7 @@ use BgpGroup\ApiBuilder\Commands\RequestBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ControllerBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ApiCrudBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\MigrationBuilderCommand;
-use BgpGroup\ApiBuilder\Commands\ApiTestBuilderCommand;
+use BgpGroup\ApiBuilder\Commands\TestBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\FactoryBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\DTObjectBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\CollectionBuilderCommand;
@@ -33,7 +33,7 @@ class ApiBuilderServiceProvider extends ServiceProvider
                 RequestBuilderCommand::class,
                 ApiCrudBuilderCommand::class,
                 MigrationBuilderCommand::class,
-                ApiTestBuilderCommand::class,
+                TestBuilderCommand::class,
                 FactoryBuilderCommand::class,
                 DTObjectBuilderCommand::class,
                 CollectionBuilderCommand::class,

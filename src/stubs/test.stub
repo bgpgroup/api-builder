@@ -1,28 +1,42 @@
 <?php
 
-namespace DummyNamespace;
+namespace Modules\$CAMEL_MODULE_NAME$\Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Testing\Fluent\AssertableJson;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
-use DummyModelUse;
+use Admin\System\Models\User;
+use Admin\Business\Models\Company;
+use Modules\$CAMEL_MODULE_NAME$\Models\$CAMEL_RESOURCE_NAME$;
+use Tests\Concerns\InteractsWithCompany;
+use Illuminate\Testing\Fluent\AssertableJson;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Modules\$CAMEL_MODULE_NAME$\DTObjects\$CAMEL_RESOURCE_NAME$DTObject;
 
-class DummyTest extends TestCase
+class $CAMEL_RESOURCE_NAME$Test extends TestCase
 {
     use RefreshDatabase;
-    
+    use InteractsWithCompany;
+
     /**
      * Get all items.
      *
      * @return void
      */
-    public function test_{{plural_model}}_can_be_displayed()
+    public function test_$SNAKE_PLURAL_RESOURCE_NAME$_can_be_displayed()
     {
-        Dummy::factory()->count(10)->create();
+        $company = Company::factory()->create();
 
-        $this->getJson('/{{base_endpoint}}/{{endpoint_name}}')
+        $user = User::factory()
+            ->withCompanyAdmin($company)
+            ->create();
+
+        $CAMEL_RESOURCE_NAME$::factory()
+            ->withCompany($company)
+            ->count(10)
+            ->create();
+
+        $this->actingAs($user)
+            ->withCompany($company)
+            ->getJson('/api/$ENDPOINT$')
             ->assertStatus(200)
             ->assertJson(fn (AssertableJson $json) =>
                 $json->has('data', 10)
@@ -36,16 +50,24 @@ class DummyTest extends TestCase
      *
      * @return void
      */
-    public function test_{{singular_model}}_can_be_displayed()
+    public function test_$SNAKE_SINGULAR_RESOURCE_NAME$_can_be_displayed()
     {
-        $model = Dummy::factory()->create();
+        $company = Company::factory()->create();
 
-        $this->getJson('/{{base_endpoint}}/{{endpoint_name}}/' . $model->id)
+        $user = User::factory()
+            ->withCompanyAdmin($company)
+            ->create();
+
+        $$RESOURCE_NAME$ = $CAMEL_RESOURCE_NAME$::factory()
+            ->withCompany($company)
+            ->create();
+
+        $this->actingAs($user)
+            ->getJson('/api/$ENDPOINT$/' . $$RESOURCE_NAME$->id)
             ->assertStatus(200)
-            ->assertJson([
-                'data' => $model{{makeHidden}} 
-                    ->toArray()
-            ]);
+            ->assertJson(['data' => $this->toPlainArray(
+                $CAMEL_RESOURCE_NAME$DTObject::fromModel($$RESOURCE_NAME$)->toArray()
+            )]);
     }
 
     /**
@@ -53,16 +75,25 @@ class DummyTest extends TestCase
      *
      * @return void
      */
-    public function test_{{singular_model}}_can_be_created()
+    public function test_$SNAKE_SINGULAR_RESOURCE_NAME$_can_be_created()
     {
-        $data = Dummy::factory()->make(){{makeHidden}}
+        $company = Company::factory()->create();
+
+        $user = User::factory()
+            ->withCompanyAdmin($company)
+            ->create();
+
+        $data = $CAMEL_RESOURCE_NAME$::factory()
+            ->make()
             ->toArray();
 
-        $this->postJson('/{{base_endpoint}}/{{endpoint_name}}', $data)
+        $this->actingAs($user)
+            ->withCompany($company)
+            ->postJson('/api/$ENDPOINT$', $data)
             ->assertStatus(201)
-            ->assertJson([
-                'data' => $data
-            ]);
+            ->assertJson(['data' => $this->toPlainArray(
+                $CAMEL_RESOURCE_NAME$DTObject::fromModel($CAMEL_RESOURCE_NAME$::whereData($data)->first())->toArray()
+            )]);
     }
 
     /**
@@ -70,17 +101,28 @@ class DummyTest extends TestCase
      *
      * @return void
      */
-    public function test_{{singular_model}}_can_be_updated()
+    public function test_$SNAKE_SINGULAR_RESOURCE_NAME$_can_be_updated()
     {
-        $data = Dummy::factory()
-            ->make(){{makeHidden}}
+        $company = Company::factory()->create();
+
+        $user = User::factory()
+            ->withCompanyAdmin($company)
+            ->create();
+
+        $data = $CAMEL_RESOURCE_NAME$::factory()
+            ->make()
             ->toArray();
 
-        $this->putJson('/{{base_endpoint}}/{{endpoint_name}}/' . Dummy::factory()->create()->id, $data)
+        $$RESOURCE_NAME$ = $CAMEL_RESOURCE_NAME$::factory()
+            ->withCompany($company)
+            ->create();
+
+        $this->actingAs($user)
+            ->putJson('/api/$ENDPOINT$/' . $$RESOURCE_NAME$->id, $data)
             ->assertStatus(200)
-            ->assertJson([
-                'data' => $data
-            ]);
+            ->assertJson(['data' => $this->toPlainArray(
+                $CAMEL_RESOURCE_NAME$DTObject::fromModel($$RESOURCE_NAME$->fresh())->toArray()
+            )]);
     }
 
     /**
@@ -88,9 +130,20 @@ class DummyTest extends TestCase
      *
      * @return void
      */
-    public function test_{{singular_model}}_can_be_deleted()
+    public function test_$SNAKE_SINGULAR_RESOURCE_NAME$_can_be_deleted()
     {
-        $this->deleteJson('/{{base_endpoint}}/{{endpoint_name}}/' . Dummy::factory()->create()->id)
+        $company = Company::factory()->create();
+
+        $user = User::factory()
+            ->withCompanyAdmin($company)
+            ->create();
+
+        $$RESOURCE_NAME$ = $CAMEL_RESOURCE_NAME$::factory()
+            ->withCompany($company)
+            ->create();
+
+        $this->actingAs($user)
+            ->deleteJson('/api/$ENDPOINT$/' . $$RESOURCE_NAME$->id)
             ->assertNoContent(204);
     }
 }
