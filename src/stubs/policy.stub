@@ -1,0 +1,113 @@
+<?php
+
+namespace Modules\$STUDLY_MODULE$\Policies;
+
+use Modules\$STUDLY_MODULE$\Models\$STUDLY_RESOURCE$;
+use Admin\System\Models\User;
+use \Illuminate\Auth\Access\Response;
+
+class $STUDLY_RESOURCE$Policy
+{
+    /**
+     * Determine if the given $SPACE_RESOURCE$ can be showed to the user.
+     *
+     * @param  User  $user
+     * @param  string  $companyId
+     * @return Response
+     */
+    public function viewAny(User $user, string $companyId) : Response
+    {
+        return $user->hasAccess(permission: '$SNAKE_MODULE$.$PLURAL_SNAKE_RESOURCE$.view-any', companyId: $companyId)
+            ? Response::allow()
+            : Response::deny('Acceso denegado');
+    }
+
+    /**
+     * Determine if the given $SPACE_RESOURCE$ can be showed to the user.
+     *
+     * @param  User  $user
+     * @param  string  $companyId
+     * @param  $STUDLY_RESOURCE$  $$CAMEL_RESOURCE$
+     * @return Response
+     */
+    public function view(User $user, $STUDLY_RESOURCE$ $$CAMEL_RESOURCE$) : Response
+    {
+        return $user->hasAccess(permission: '$SNAKE_MODULE$.$PLURAL_SNAKE_RESOURCE$.view-one', resource: $$CAMEL_RESOURCE$)
+            ? Response::allow()
+            : Response::deny('Acceso denegado');
+    }
+
+    /**
+     * Determine if the given $SPACE_RESOURCE$ can be updated by the user.
+     *
+     * @param  User  $user
+     * @param  string  $companyId
+     * @return Response
+     */
+    public function create(User $user, string $companyId) : Response
+    {
+        return $user->hasAccess(permission: '$SNAKE_MODULE$.$PLURAL_SNAKE_RESOURCE$.create', companyId: $companyId)
+            ? Response::allow()
+            : Response::deny('Acceso denegado');
+    }
+
+    /**
+     * Determine if the given $SPACE_RESOURCE$ can be updated by the user.
+     *
+     * @param  User  $user
+     * @param  string  $companyId
+     * @param  $STUDLY_RESOURCE$  $$CAMEL_RESOURCE$
+     * @return Response
+     */
+    public function update(User $user, $STUDLY_RESOURCE$ $$CAMEL_RESOURCE$) : Response
+    {
+        return $user->hasAccess(permission: '$SNAKE_MODULE$.$PLURAL_SNAKE_RESOURCE$.update', resource: $$CAMEL_RESOURCE$)
+            ? Response::allow()
+            : Response::deny('Acceso denegado');
+    }
+
+    /**
+     * Determine if the given $SPACE_RESOURCE$ can be updated by the user.
+     *
+     * @param  User  $user
+     * @param  string  $companyId
+     * @param  $STUDLY_RESOURCE$  $$CAMEL_RESOURCE$
+     * @return Response
+     */
+    public function delete(User $user, $STUDLY_RESOURCE$ $$CAMEL_RESOURCE$) : Response
+    {
+        return $user->hasAccess(permission: '$SNAKE_MODULE$.$PLURAL_SNAKE_RESOURCE$.delete', resource: $$CAMEL_RESOURCE$)
+            ? Response::allow()
+            : Response::deny('Acceso denegado');
+    }
+
+    /**
+     * Determine if the given $SPACE_RESOURCE$ can be updated by the user.
+     *
+     * @param  User  $user
+     * @param  string  $companyId
+     * @param  $STUDLY_RESOURCE$  $$CAMEL_RESOURCE$
+     * @return Response
+     */
+    public function restore(User $user, $STUDLY_RESOURCE$ $$CAMEL_RESOURCE$) : Response
+    {
+        return $user->isSuperAdmin()
+            ? Response::allow()
+            : Response::deny('Acceso denegado');
+    }
+
+    /**
+     * Determine if the given $SPACE_RESOURCE$ can be updated by the user.
+     *
+     * @param  User  $user
+     * @param  string  $companyId
+     * @param  $STUDLY_RESOURCE$  $$CAMEL_RESOURCE$
+     * @return Response
+     */
+    public function forceDelete(User $user, $STUDLY_RESOURCE$ $$CAMEL_RESOURCE$) : Response
+    {
+        return $user->isSuperAdmin()
+            ? Response::allow()
+            : Response::deny('Acceso denegado');
+    }
+}
