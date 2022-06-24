@@ -60,7 +60,7 @@ class InitRouterBuilderCommand extends GeneratorCommand
             throw new InvalidArgumentException("Missing required argument module");
         }
 
-        $stub = str_replace('$LOWER_MODULE_NAME$', Str::lower($this->argument('name')), $stub);
+        $stub = str_replace('$LOWER_MODULE_NAME$', Str::lower(Str::snake($this->argument('name'), '-')), $stub);
 
         return str_replace('$CAMEL_MODULE_NAME$', Str::studly($this->argument('name')), $stub);
     }

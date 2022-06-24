@@ -56,7 +56,7 @@ class ControllerBuilderCommand extends GeneratorCommand
             throw new InvalidArgumentException("Missing required argument module");
         }
 
-        $stub = str_replace('$LOWER_RESOURCE_NAME$', Str::lower($this->argument('name')), $stub);
+        $stub = str_replace('$LOWER_RESOURCE_NAME$', Str::camel($this->argument('name')), $stub);
 
         $stub = str_replace('$CAMEL_RESOURCE_NAME$', Str::studly($this->argument('name')), $stub);
 

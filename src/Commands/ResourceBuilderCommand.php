@@ -3,18 +3,20 @@
 namespace BgpGroup\ApiBuilder\Commands;
 
 use Illuminate\Support\Str;
-use Illuminate\Console\GeneratorCommand;
+use Illuminate\Console\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
+use File;
 
-class ResourceBuilderCommand extends GeneratorCommand
+class ResourceBuilderCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'bgp:make:resource 
-                            {name} : The name of the module
+    protected $signature = 'bgp:make:resource
+                            {name} : The name of the resource
+                            {--module= : The moule name}
                             ';
 
     /**
@@ -22,41 +24,59 @@ class ResourceBuilderCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $description = 'Generate App Provider';
+    protected $description = 'Generate Module';
 
-    protected $type = 'Provider';
-
-    /**
-     * 
-     * Get the stub file for the generator.
-     *
-     * @return string
-     */
-    protected function getStub()
+    public function handle()
     {
-        return __DIR__.'/../stubs/' . '/' . 'app-service-provider.stub';
+        $params = ['name' => $this->argument('name'), 'module' => $this->option('module')];
+
+        $this->call('bgp:make:migration', $params);
+        $this->call('bgp:make:model', $params);
+        $this->call('bgp:make:factory', $params);
+        $this->call('bgp:make:request', $params);
+        $this->call('bgp:make:dto', $params);
+        $this->call('bgp:make:collection', $params);
+        $this->call('bgp:make:controller', $params);
+        $this->call('bgp:make:police', $params);
+        $this->call('bgp:make:test', $params);
+
+        $this->addPolicies();
+        $this->addRoutes();
     }
 
-    protected function getPath($name)
+    protected function addPolicies()
     {
-        return 'src/Modules/' . Str::studly($this->argument('name')) . '/Providers/AppServiceProvider.php';
+        $authProviderFile = 'src/Modules/' . Str::studly($this->option('module')) . '/Providers/AuthServiceProvider.php';
+        $content = file_get_contents(base_path($authProviderFile));
+        $search = '    ];';
+
+        $replace = '' .
+            "        " . Str::studly($this->argument('name')) . "::class => " . Str::studly($this->argument('name')) . "Policy::class," .
+            "\n    ];";
+        
+        $content = str_replace($search, $replace, $content);
+        file_put_contents(base_path($authProviderFile), $content);
+
+        $search = 'use App\Providers\AuthServiceProvider as ServiceProvider;';
+        $replace = "use App\Providers\AuthServiceProvider as ServiceProvider;" .
+            "\nuse Modules\\" . Str::studly($this->option('module')) . '\Models\\' . Str::studly($this->argument('name')) .';' .
+            "\nuse Modules\\" . Str::studly($this->option('module')) . '\Policies\\' . Str::studly($this->argument('name')) . 'Policy;';
+            
+        $content = str_replace($search, $replace, $content);
+        file_put_contents(base_path($authProviderFile), $content);
     }
 
-    /**
-     * Replace the class name for the given stub.
-     *
-     * @param  string  $stub
-     * @param  string  $name
-     * @return string
-     */
-    protected function replaceClass($stub, $name)
+    protected function addRoutes()
     {
-        if(!$this->argument('name')){
-            throw new InvalidArgumentException("Missing required argument module");
-        }
+        $authProviderFile = 'src/Modules/' . Str::studly($this->option('module')) . '/Providers/AuthServiceProvider.php';
+        $content = file_get_contents(base_path($authProviderFile));
+        $search = '});';
 
-        $stub = str_replace('$LOWER_MODULE_NAME$', Str::lower($this->argument('name')), $stub);
-
-        return str_replace('$CAMEL_MODULE_NAME$', Str::studly($this->argument('name')), $stub);
+        $replace = '' .
+        "    Route::apiResource('" . Str::plural(Str::lower(Str::snake($this->argument('name'), '-'))) . ", Control\\" . Str::studly($this->argument('name')) . "Controller::class);" .
+        "\n});";
+        
+        $content = str_replace($search, $replace, $content);
+        file_put_contents(base_path($authProviderFile), $content);
     }
 }
