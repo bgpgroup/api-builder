@@ -2,6 +2,8 @@
 
 return [
 
+    'resources' => require_once('builder.php'),
+
     'roles' => [
         
     ],

@@ -1,9 +1,9 @@
 <?php
 
-namespace Module\$CAMEL_MODULE_NAME$\Collections;
+namespace Modules\$CAMEL_MODULE_NAME$\Collections;
 
-use Module\$CAMEL_MODULE_NAME$\DTObjects\$CAMEL_RESOURCE_NAME$DTObject;
-use Module\$CAMEL_MODULE_NAME$\Models\$CAMEL_RESOURCE_NAME$;
+use Modules\$CAMEL_MODULE_NAME$\DTObjects\$CAMEL_RESOURCE_NAME$DTObject;
+use Modules\$CAMEL_MODULE_NAME$\Models\$CAMEL_RESOURCE_NAME$;
 use Support\Collections\ObjectDataCollection;
 use Illuminate\Database\Eloquent\Collection;
 

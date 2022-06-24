@@ -7,12 +7,14 @@ use Modules\$CAMEL_MODULE_NAME$\Factories\$CAMEL_RESOURCE_NAME$Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Support\Models\BaseModel;
 use Support\Traits\HasCompany;
+use Support\Traits\WhereData;
 
 class $CAMEL_RESOURCE_NAME$ extends BaseModel
 {
     use HasFactory;
     use Searchable;
     use HasCompany;
+    use WhereData;
 
     protected $table = '$TABLE_NAME$';
 

@@ -16,7 +16,7 @@ class ResourceBuilderCommand extends Command
      */
     protected $signature = 'bgp:make:resource
                             {name} : The name of the resource
-                            {--module= : The moule name}
+                            {--module= : The module name}
                             ';
 
     /**
@@ -28,7 +28,7 @@ class ResourceBuilderCommand extends Command
 
     public function handle()
     {
-        $params = ['name' => $this->argument('name'), 'module' => $this->option('module')];
+        $params = ['name' => $this->argument('name'), '--module' => $this->option('module')];
 
         $this->call('bgp:make:migration', $params);
         $this->call('bgp:make:model', $params);
@@ -37,7 +37,7 @@ class ResourceBuilderCommand extends Command
         $this->call('bgp:make:dto', $params);
         $this->call('bgp:make:collection', $params);
         $this->call('bgp:make:controller', $params);
-        $this->call('bgp:make:police', $params);
+        $this->call('bgp:make:policy', $params);
         $this->call('bgp:make:test', $params);
 
         $this->addPolicies();
@@ -68,12 +68,12 @@ class ResourceBuilderCommand extends Command
 
     protected function addRoutes()
     {
-        $authProviderFile = 'src/Modules/' . Str::studly($this->option('module')) . '/Providers/AuthServiceProvider.php';
+        $authProviderFile = 'src/Modules/' . Str::studly($this->option('module')) . '/routes/api.php';
         $content = file_get_contents(base_path($authProviderFile));
         $search = '});';
 
         $replace = '' .
-        "    Route::apiResource('" . Str::plural(Str::lower(Str::snake($this->argument('name'), '-'))) . ", Control\\" . Str::studly($this->argument('name')) . "Controller::class);" .
+        "    Route::apiResource('" . Str::plural(Str::lower(Str::snake($this->argument('name'), '-'))) . "', Control\\" . Str::studly($this->argument('name')) . "Controller::class);" .
         "\n});";
         
         $content = str_replace($search, $replace, $content);

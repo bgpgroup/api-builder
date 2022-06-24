@@ -18,14 +18,15 @@ use BgpGroup\ApiBuilder\Commands\AuthProviderBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\InitRouterBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ConfigBuilderCommand;
 use BgpGroup\ApiBuilder\Commands\ResourceBuilderCommand;
+use BgpGroup\ApiBuilder\Commands\ConfigResourceBuilderCommand;
 
 class ApiBuilderServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->publishes([
-            __DIR__.'/../../config/api-builder.php' => config_path('api-builder.php'),
-        ]);
+        //$this->publishes([
+        //    __DIR__.'/../../config/api-builder.php' => config_path('api-builder.php'),
+        //]);
 
         if ($this->app->runningInConsole()) {
             $this->commands([
@@ -44,6 +45,7 @@ class ApiBuilderServiceProvider extends ServiceProvider
                 InitRouterBuilderCommand::class,
                 ConfigBuilderCommand::class,
                 ResourceBuilderCommand::class,
+                ConfigResourceBuilderCommand::class,
             ]);
         }
     }

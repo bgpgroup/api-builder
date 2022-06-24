@@ -1,0 +1,72 @@
+<?php
+
+return [
+
+    'Resource' => [
+
+        'migration' => [
+
+            'table' => 'table-name',
+
+            'columns' => [
+                'id' => true,
+                'name' => [
+                    'type' => 'string',
+                    'size' => '100',
+                ],
+                'description' => [
+                    'type' => 'text',
+                    'nullable' => true,
+                ],
+                'active' => true,
+                'created_by' => true,
+                'company_id' => true,
+                'timestamps' => true,
+                'soft_delete' => true
+            ],
+        ],
+
+        'model' => [
+            'table' => 'table-name',
+            'fillable' => ['id', 'name', 'description', 'company_id'],
+            'searchable' => ['name', 'description']
+        ],
+
+        'request' => [
+
+            'rules' => [
+                'create' => [
+                    'name' => 'required',
+                    'description' => 'nullable',
+                ],
+
+                'update' => [
+                    'name' => 'required',
+                    'description' => 'nullable',
+                ]
+            ],
+
+            'messages' => [
+                'name.required' => 'El nombre es obligatorio',
+            ]
+        ],
+
+        'dto' => [
+
+            'fields' => [
+                'id', 'name', 'description'
+            ]
+        ],
+
+        'factory' => [
+
+            'fields' => [
+                'name' => '$this->faker->word',
+                'description' => '$this->faker->sentence',
+            ]
+        ],
+
+        'endpoint' => 'module/resources'
+
+    ],
+];
