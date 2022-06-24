@@ -5,6 +5,7 @@ namespace Modules\$CAMEL_MODULE_NAME$\Models;
 use BgpGroup\Searchable\Searchable;
 use Modules\$CAMEL_MODULE_NAME$\Factories\$CAMEL_RESOURCE_NAME$Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Support\Models\BaseModel;
 use Support\Traits\HasCompany;
 use Support\Traits\WhereData;
@@ -29,7 +30,7 @@ class $CAMEL_RESOURCE_NAME$ extends BaseModel
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
-    protected static function newFactory()
+    protected static function newFactory() : Factory
     {
         return $CAMEL_RESOURCE_NAME$Factory::new();
     }
