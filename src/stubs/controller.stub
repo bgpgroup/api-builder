@@ -26,7 +26,7 @@ class $CAMEL_RESOURCE_NAME$Controller extends Controller
         $this->authorize('viewAny', [$CAMEL_RESOURCE_NAME$::class, $request->company_id]);
 
         $data = $CAMEL_RESOURCE_NAME$::query()
-            ->company($request->company_id)
+            ->byCompany($request->company_id)
             ->filterByMultiple($request->get('filters', []))
             ->orderByMultiple($request->get('sorters', []))
             ->orderBy($request->get('sort', 'id'), $request->get('direction', 'asc'))
