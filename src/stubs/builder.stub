@@ -28,7 +28,7 @@ return [
 
         'model' => [
             'table' => 'table-name',
-            'fillable' => ['id', 'name', 'description', 'company_id', 'created_by],
+            'fillable' => ['id', 'name', 'description', 'company_id', 'created_by'],
             'searchable' => ['name', 'description']
         ],
 
